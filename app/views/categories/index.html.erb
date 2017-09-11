@@ -1,0 +1,14 @@
+<h3>列表</h3>
+
+<table class="table table-striped table-bordered">
+  <% @categories.each do |c| %>
+    <tr>
+      <td><%= c.title %></td>
+      <td><%= c.weight %></td>
+      <td>
+        <%= link_to "编辑", edit_category_path(c), class: "btn btn-success" %>
+        <%= link_to "删除", category_path(c), method: :delete, "data-confirm": "分类下的所有东西将会一起被清除，确认继续吗？", class: "btn btn-primary" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
