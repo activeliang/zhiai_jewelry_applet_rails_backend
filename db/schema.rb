@@ -10,15 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911053814) do
+ActiveRecord::Schema.define(version: 20170911063021) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
     t.integer  "weight"
     t.string   "ancestry"
+    t.string   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ancestry"], name: "index_categories_on_ancestry"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.decimal  "price",       precision: 10, scale: 2
+    t.string   "title"
+    t.string   "sub_title"
+    t.string   "video"
+    t.string   "images"
+    t.text     "description"
+    t.integer  "weight"
+    t.integer  "category_id"
+    t.boolean  "in_stock",                             default: true
+    t.boolean  "index_show",                           default: false
+    t.boolean  "is_hide",                              default: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["title"], name: "index_products_on_title"
+    t.index ["weight"], name: "index_products_on_weight"
   end
 
   create_table "users", force: :cascade do |t|
