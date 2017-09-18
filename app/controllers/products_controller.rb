@@ -1,7 +1,19 @@
 class ProductsController < ApplicationController
+  protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat]
 
   def index
-    @products = Product.includes(:category).paginate(:page => params[:page], :per_page => 10)
+    @q = Product.ransack(params[:q])
+    @products = @q.result.includes(:category).paginate(:page => params[:page], :per_page => 25)
+    respond_to do |format|
+      format.html
+      format.json{
+        if params[:q][:title_or_sub_title_cont].present?
+          render :json => { products: @products.map{|p| { id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image}}, paginate: { current_page: @products.current_page, previous_page: @products.previous_page, next_page: @products.next_page, total_page: @products.total_pages}}
+        else
+          render :josn => {status: "error"}
+        end
+      }
+    end
   end
 
   def new
@@ -16,6 +28,37 @@ class ProductsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def create_form_wechat
+    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: 3, images: params[:images], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide]
+    if product.save
+      render :json => {status: "ok", id: product.id}
+    else
+      render :json => {status: "新增失败，请联系管理员"}
+    end
+  end
+
+  def update_form_wechat
+    product = Product.find(params[:id])
+    params[:type] == "add" ? "images_a = product.images" : []
+      product.title = params[:title] if params[:title].present?
+      product.sub_title = params[:sub_title] if params[:sub_title].present?
+      product.description = params[:description] if params[:description].present?
+      product.video = params[:video] if params[:video].present?
+      product.images = images_a + params[:images] if params[:images].present?
+      product.price = params[:price] if params[:price].present?
+      product.in_stock = params[:in_stock] if params[:in_stock].present?
+      product.index_show = params[:index_show] if params[:index_show].present?
+      product.is_hide = params[:is_hide] if params[:is_hide].present?
+      product.weight = params[:weight] if params[:weight].present?
+
+      if product.save!
+        render :json => {status: "ok", id: product.id}
+      else
+        render :json => {status: "failed"}
+      end
+
   end
 
   def show

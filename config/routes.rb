@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root 'categories#index'
+  root 'products#index'
 
   get "yy" => "welcome#yy"
 
@@ -10,5 +10,12 @@ Rails.application.routes.draw do
       post :update_column
     end
   end
-  resources :products
+  resources :products do
+    collection do
+      post :create_form_wechat
+    end
+    member do
+      post :update_form_wechat
+    end
+  end
 end

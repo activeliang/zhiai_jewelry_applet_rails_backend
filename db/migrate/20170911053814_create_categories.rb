@@ -6,6 +6,6 @@ class CreateCategories < ActiveRecord::Migration[5.0]
       t.string :ancestry, :image
       t.timestamps
     end
-    add_index :categories, :ancestry
+    add_index :categories, [:ancestry, :weight]
   end
 end

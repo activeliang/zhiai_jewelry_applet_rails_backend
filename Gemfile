@@ -48,7 +48,7 @@ gem 'qiniu-rs'
 
 gem 'will_paginate'
 
-
+gem 'ransack'
 
 
 

@@ -1,5 +1,11 @@
 <h2>all records</h2>
 
+  <%= search_form_for @q, :url => products_path do |f| %>
+
+    <p><%= f.search_field :title_or_sub_title_cont, :placeholder => "搜索商品", :class => "form-control" %></p>
+    <%= f.submit "submit" %>
+  <% end %>
+
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -47,5 +53,5 @@
 </table>
 
 <div class="text-center">
-  <%= will_paginate @posts %>
+  <%= will_paginate @products %>
 </div>

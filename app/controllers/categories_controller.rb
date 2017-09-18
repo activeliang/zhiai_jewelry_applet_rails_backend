@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html
       format.json{
-        render :json => @category.products.map{|p| {id: p.id, title: p.title, subtitle: p.sub_title, price: p.price, image: p.images.split("&").first}}
+        render :json => @category.products.map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.images.split("&").first}}
       }
     end
   end

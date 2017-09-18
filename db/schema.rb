@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170911063021) do
+ActiveRecord::Schema.define(version: 20170918122702) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -19,7 +19,16 @@ ActiveRecord::Schema.define(version: 20170911063021) do
     t.string   "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_categories_on_ancestry"
+    t.index ["ancestry", "weight"], name: "index_categories_on_ancestry_and_weight"
+  end
+
+  create_table "product_images", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "weight"
+    t.string   "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "weight"], name: "index_product_images_on_product_id_and_weight"
   end
 
   create_table "products", force: :cascade do |t|
@@ -36,7 +45,7 @@ ActiveRecord::Schema.define(version: 20170911063021) do
     t.boolean  "is_hide",                              default: false
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
-    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["category_id", "weight"], name: "index_products_on_category_id_and_weight"
     t.index ["title"], name: "index_products_on_title"
     t.index ["weight"], name: "index_products_on_weight"
   end
