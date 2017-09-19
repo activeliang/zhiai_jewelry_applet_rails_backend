@@ -46,9 +46,14 @@ class CategoriesController < ApplicationController
     redirect_to :back, notice: "已更新！"
   end
 
-  def for_wechat_picker
+  def for_wechat_product_new_picker
     roots = Category.where(ancestry: nil)
     render :json => {title_arr: roots.map{|r| [r.title, ["- -"] + r.children.map{|c| c.title}]}, id_arr: roots.map{|r| [r.id, [00] + r.children.map{|c| c.id}]}, default_arr: [ roots.map{|r| r.title}, ["- -"] + roots.first.children.map{|c| c.title}], current_index: roots.first.id}
+  end
+
+  def for_wechat_category_new_picker
+    roots = Category.where(ancestry: nil)
+    render :json => {title_arr: ["(新增一级分类)"] + roots.map{|r| r.title}, id_arr: ["00"] + roots.map{|r| r.id}}
   end
 
 

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   resources :categories do
     collection do
-      get :for_wechat_picker
+      get :for_wechat_product_new_picker
+      get :for_wechat_category_new_picker
     end
     member do
       post :update_column
