@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html
       format.json{
-        render :json => @category.products.map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.images.split("&").first}}
+        render :json => @category.products.map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.product_images.first.image.url}}
       }
     end
   end
@@ -44,6 +44,11 @@ class CategoriesController < ApplicationController
     @category.update_attribute :title, params[:category][:title] if params[:category][:title]
     @category.update_attribute :weight, params[:category][:weight] if params[:category][:weight]
     redirect_to :back, notice: "已更新！"
+  end
+
+  def for_wechat_picker
+    roots = Category.where(ancestry: nil)
+    render :json => {title_arr: roots.map{|r| [r.title, ["- -"] + r.children.map{|c| c.title}]}, id_arr: roots.map{|r| [r.id, [00] + r.children.map{|c| c.id}]}, default_arr: [ roots.map{|r| r.title}, ["- -"] + roots.first.children.map{|c| c.title}], current_index: roots.first.id}
   end
 
 
@@ -67,6 +72,6 @@ class CategoriesController < ApplicationController
   end
 
   def render_products(root)
-    return root.products.map{|p| { id: p.id, title: p.title, image: p.main_image}}
+    return root.products.map{|p| { id: p.id, title: p.title}}
   end
 end

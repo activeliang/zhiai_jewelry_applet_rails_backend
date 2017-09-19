@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
 
   resources :categories do
+    collection do
+      get :for_wechat_picker
+    end
     member do
       post :update_column
     end
@@ -16,6 +19,7 @@ Rails.application.routes.draw do
     end
     member do
       post :update_form_wechat
+      post :update_product_image
     end
   end
 end

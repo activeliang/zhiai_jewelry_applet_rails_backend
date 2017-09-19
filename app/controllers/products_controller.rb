@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat]
+  protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
 
   def index
     @q = Product.ransack(params[:q])
@@ -31,22 +31,21 @@ class ProductsController < ApplicationController
   end
 
   def create_form_wechat
-    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: 3, images: params[:images], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide]
+    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], images: params[:images], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
     if product.save
       render :json => {status: "ok", id: product.id}
     else
       render :json => {status: "新增失败，请联系管理员"}
     end
+    # binding.pry
   end
 
   def update_form_wechat
     product = Product.find(params[:id])
-    params[:type] == "add" ? "images_a = product.images" : []
       product.title = params[:title] if params[:title].present?
       product.sub_title = params[:sub_title] if params[:sub_title].present?
       product.description = params[:description] if params[:description].present?
       product.video = params[:video] if params[:video].present?
-      product.images = images_a + params[:images] if params[:images].present?
       product.price = params[:price] if params[:price].present?
       product.in_stock = params[:in_stock] if params[:in_stock].present?
       product.index_show = params[:index_show] if params[:index_show].present?
@@ -59,6 +58,14 @@ class ProductsController < ApplicationController
         render :json => {status: "failed"}
       end
 
+  end
+
+  def update_product_image
+    # product = Product.find(params[:id])
+    # product.product_images.create! image: params[:image] if params[:image].present?
+    # binding.pry
+    p = ProductImage.create product_id: params[:id], image: params[:image] if params[:image].present?
+    render :json => {status: "ok", id: p.id}
   end
 
   def show
