@@ -1,4 +1,7 @@
 class CategoriesController < ApplicationController
+  protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
+
+
   before_action :find_category, only: [:update_column]
   def index
     @category_roots = Category.includes(:products).all.roots
@@ -8,10 +11,11 @@ class CategoriesController < ApplicationController
       format.json{
 
         scroll_a = []
+        item_a = []
         tmp = 0
-        @category_roots.map{|x| scroll_a << tmp += (x.children.count / 3.000).ceil * 70 + 30  }
-
-        render :json => { scroll_detail: scroll_a, test: "test", tree:  @category_roots.map{|r| { id: r.id, title: r.title, products: render_products(r), children: render_children(r) }}}
+        @category_roots.map{|x| scroll_a << tmp += ((x.children.count + x.products.count) / 3.000).ceil * 70 + 30  }
+        @category_roots.map{|x| item_a << ((x.children.count + x.products.count) / 3.000).ceil * 70 + 30 }
+        render :json => { item_a: item_a, scroll_detail: scroll_a, test: "test", tree:  @category_roots.map{|r| { id: r.id, title: r.title, products: render_products(r), children: render_children(r) }}}
       }
     end
   end
@@ -29,6 +33,7 @@ class CategoriesController < ApplicationController
     end
   end
 
+  # json格式为获取当前分类下的所有产品数据
   def show
     @category = Category.includes(:products).find(params[:id])
     respond_to do |format|
@@ -39,21 +44,67 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # 更新数据
+  # 页面版的更新栏位数据
   def update_column
     @category.update_attribute :title, params[:category][:title] if params[:category][:title]
     @category.update_attribute :weight, params[:category][:weight] if params[:category][:weight]
     redirect_to :back, notice: "已更新！"
   end
-
+  # wechat端需要新增分类时，获取的分类列表
   def for_wechat_product_new_picker
     roots = Category.where(ancestry: nil)
-    render :json => {title_arr: roots.map{|r| [r.title, ["- -"] + r.children.map{|c| c.title}]}, id_arr: roots.map{|r| [r.id, [00] + r.children.map{|c| c.id}]}, default_arr: [ roots.map{|r| r.title}, ["- -"] + roots.first.children.map{|c| c.title}], current_index: roots.first.id}
+    render :json => {title_arr: roots.map{|r| [r.title, ["- -"] + r.children.map{|c| c.title}]}, id_arr: roots.map{|r| [r.id, [00] + r.children.map{|c| c.id}]}, default_arr: [ roots.map{|r| r.title}, ["- -"] + roots.first.children.map{|c| c.title}], current_id: roots.first.id, current_title: roots.first.title}
   end
 
   def for_wechat_category_new_picker
     roots = Category.where(ancestry: nil)
     render :json => {title_arr: ["(新增一级分类)"] + roots.map{|r| r.title}, id_arr: ["00"] + roots.map{|r| r.id}}
+  end
+
+
+  # 新增来自wechat端
+  def create_form_api
+    category = Category.new title: params[:title], weight: params[:weight], ancestry: ( params[:parent_id] if params[:parent_id].present? )
+    if category.save
+      render :json => { status: "ok", id: category.id }
+    else
+      binding.pry
+      render :json => { status: "failed" }
+    end
+  end
+
+  # 更新来自wechat端
+  def update_form_api
+    category = Category.find(params[:id])
+    category.title = params[:title] if params[:title].present?
+    category.weight = params[:weight] if params[:weight].present?
+    category.image = params[:image] if params[:image].present?
+    category.ancestry = params[:parent_id] if params[:parent_id].present?
+    if category.save
+      render :json => {status: "ok", id: category.id}
+    else
+      binding.pry
+      render :json => { status: "failed"}
+    end
+  end
+
+  def update_image_form_api
+    category = Category.find(params[:id])
+    category.image = params[:image] if params[:image].present?
+    if category.save
+      render :json => "ok"
+    else
+      binding.pry
+      render :json => { status: "failed"}
+    end
+  end
+
+  # 获取一条数据的详情
+  def get_category_detail
+    category = Category.find(params[:id])
+    if category.present?
+      render :json => { id: category.id, title: category.title, weight: category.weight, image: (category.image.url if category.image.present?)}
+    end
   end
 
 

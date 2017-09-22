@@ -31,7 +31,7 @@ class ProductsController < ApplicationController
   end
 
   def create_form_wechat
-    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], images: params[:images], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
+    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
     if product.save
       render :json => {status: "ok", id: product.id}
     else
@@ -75,7 +75,7 @@ class ProductsController < ApplicationController
       format.json{
         random_product = Product.order("RANDOM()").limit(15)
         p = @product
-        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video, images: p.images.split("&")}, random_product: random_product.map{|p| { id: p.id, image: p.main_image, title: p.title, sub_title: p.sub_title, price: p.price}}}
+        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: "#"}, random_product: random_product.map{|p| { id: p.id, image: "test", title: p.title, sub_title: p.sub_title, price: p.price}}}
       }
     end
   end
@@ -86,6 +86,11 @@ class ProductsController < ApplicationController
     else
       redirect_to :back, alert: "删除失败，请联系管理员！"
     end
+  end
+
+  def get_product_detail
+    p = Product.find(params[:id])
+    render :json => {id: p.id, title: p.title, sub_title: p.sub_title, video: p.video, weight: p.weight, index_show: p.index_show, in_stock: p.in_stock, is_hide: p.is_hide, image: p.product_images, category_id: p.category_id, category_title: p.category.title}
   end
 
   private

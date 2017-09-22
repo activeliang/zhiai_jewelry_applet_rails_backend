@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20170918122702) do
     t.string   "title"
     t.string   "sub_title"
     t.string   "video"
-    t.string   "images"
     t.text     "description"
     t.integer  "weight"
     t.integer  "category_id"
@@ -46,7 +45,7 @@ ActiveRecord::Schema.define(version: 20170918122702) do
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
     t.index ["category_id", "weight"], name: "index_products_on_category_id_and_weight"
-    t.index ["title"], name: "index_products_on_title"
+    t.index ["title", "sub_title"], name: "index_products_on_title_and_sub_title"
     t.index ["weight"], name: "index_products_on_weight"
   end
 
