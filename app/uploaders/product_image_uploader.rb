@@ -16,6 +16,9 @@ class ProductImageUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
+  self.qiniu_can_overwrite = true
+
+
    version :small do
      process resize_to_fit: [400, 250]
    end

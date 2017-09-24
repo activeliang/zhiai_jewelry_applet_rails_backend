@@ -30,7 +30,7 @@
             </td>
             <td>
               <% if c.image.present? %>
-                <%= image_tag(c.image.small.url, class: "pull-right img-responsive thumbnail", width: '70') %>
+                <%= image_tag(c.image.small.url, class: "img-responsive thumbnail", width: '70') %>
               <% else %>
                 <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
               <% end %>
