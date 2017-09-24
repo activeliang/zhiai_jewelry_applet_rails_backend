@@ -32,19 +32,17 @@
         <td><%= p.price %></td>
         <td width=400>
           <div class="embed-responsive embed-responsive-4by3">
-            <video controls class="embed-responsive-item" src="<%= p.video %>"></video>
+            <video controls class="embed-responsive-item" src="<%= p.video.url %>"></video>
           </div>
         </td>
         <td><%= p.in_stock %></td>
         <td><%= p.index_show %></td>
         <td><%= p.is_hide ? "下架" : "上架" %></td>
         <td><%= p.weight %></td>
-        <td>
-          <% if p.images.present? %>
-            <% p.images.split("&").each do |i| %>
-              <%= image_tag i, class: "img-responsive" %>
-            <% end %>
-          <% end %>
+        <td width=300>
+           <% p.product_images.each do |img| %>
+           <%= image_tag(img.image.small.url, class: "thumbnail img-responsive") %>
+           <% end %>
         </td>
 
       </tr>

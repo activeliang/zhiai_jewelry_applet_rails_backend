@@ -73,9 +73,10 @@ class ProductsController < ApplicationController
     respond_to do |format|
       format.html
       format.json{
-        random_product = Product.order("RANDOM()").limit(15)
+        random_product = Product.includes(:product_images).order("RANDOM()").limit(15)
         p = @product
-        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: "#"}, random_product: random_product.map{|p| { id: p.id, image: "test", title: p.title, sub_title: p.sub_title, price: p.price}}}
+        # binding.pry
+        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: render_product_all_images(p) }, random_product: random_product.map{|p| { id: p.id, image: render_product_main_image(p), title: p.title, sub_title: p.sub_title, price: p.price}}, product_main_img: p.main_image}
       }
     end
   end
@@ -90,7 +91,7 @@ class ProductsController < ApplicationController
 
   def get_product_detail
     p = Product.find(params[:id])
-    render :json => {id: p.id, title: p.title, sub_title: p.sub_title, video: p.video, weight: p.weight, index_show: p.index_show, in_stock: p.in_stock, is_hide: p.is_hide, image: p.product_images, category_id: p.category_id, category_title: p.category.title}
+    render :json => {id: p.id, title: p.title, sub_title: p.sub_title, description: p.description, price: p.price, video: p.video, weight: p.weight, index_show: p.index_show, in_stock: p.in_stock, is_hide: p.is_hide, image: p.product_images.order(weight: 'asc').map{|i| i.image.url}, category_id: p.category_id, category_title: p.category.title}
   end
 
   private
@@ -100,5 +101,17 @@ class ProductsController < ApplicationController
 
   def find_product
     @product = Product.find(params[:id])
+  end
+
+  def render_product_all_images(product)
+    if product.product_images.present?
+      product.product_images.order(weight: "asc").map{|i| i.image.url}
+    end
+  end
+
+  def render_product_main_image(product)
+    if product.product_images.present?
+      product.product_images.first.image.url
+    end
   end
 end

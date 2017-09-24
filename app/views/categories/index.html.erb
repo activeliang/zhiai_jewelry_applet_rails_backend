@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-6 col-sm-offset-3">
+  <div class="col-sm-8 col-sm-offset-2">
     <legend>所有分类列表</legend>
     <% @category_roots.each do |root| %>
       <div class="row well well-sm well-success">
@@ -26,6 +26,19 @@
               <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
                 <%= f.text_field :title, :value => c.title %>
                 <%= f.submit "更名", class: "btn btn-xs btn-default" %>
+              <% end %>
+            </td>
+            <td>
+              <% if c.image.present? %>
+                <%= image_tag(c.image.small.url, class: "pull-right img-responsive thumbnail", width: '70') %>
+              <% else %>
+                <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
+              <% end %>
+            </td>
+            <td>
+              <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+              <%= f.file_field :image %>
+              <%= f.submit "更新", class: "btn btn-xs btn-default" %>
               <% end %>
             </td>
             <td>
@@ -64,6 +77,7 @@
 
         <%= f.input :title %>
         <%= f.input :weight %>
+        <%= f.input :image %>
         <%= f.submit "提交", class: "btn btn-primary" %>
         <% end %>
       </div>

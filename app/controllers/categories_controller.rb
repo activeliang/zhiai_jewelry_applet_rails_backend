@@ -1,15 +1,13 @@
 class CategoriesController < ApplicationController
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
+  before_action :find_category, only: [:update_column, :destroy]
 
-
-  before_action :find_category, only: [:update_column]
   def index
-    @category_roots = Category.includes(:products).all.roots
+    @category_roots = Category.includes(:products).roots.order(weight: 'asc')
     @category = Category.new
     respond_to do |format|
       format.html
       format.json{
-
         scroll_a = []
         item_a = []
         tmp = 0
@@ -44,11 +42,24 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def destroy
+    if @category.destroy
+      redirect_to categories_path, alert: "已删除"
+    else
+      redirect_to :back, alert: "操作失败，请联系程序员"
+    end
+  end
+
   # 页面版的更新栏位数据
   def update_column
-    @category.update_attribute :title, params[:category][:title] if params[:category][:title]
-    @category.update_attribute :weight, params[:category][:weight] if params[:category][:weight]
-    redirect_to :back, notice: "已更新！"
+    @category.image = params[:category][:image] if params[:category][:image].present?
+    @category.weight = params[:category][:weight] if params[:category][:weight].present?
+    @category.title = params[:category][:title] if params[:category][:title].present?
+    if @category.save
+      redirect_to :back, notice: "已更新！"
+    else
+      redirect_to :back, alert: "操作失败，请联系管理员"
+    end
   end
   # wechat端需要新增分类时，获取的分类列表
   def for_wechat_product_new_picker
@@ -114,7 +125,7 @@ class CategoriesController < ApplicationController
   # 私有方法
   private
   def category_params
-    params.require(:category).permit(:title, :weight, :ancestry)
+    params.require(:category).permit(:title, :weight, :ancestry, :image)
   end
 
   def find_category
@@ -123,7 +134,7 @@ class CategoriesController < ApplicationController
 
   def render_children(root)
     if root.children.present?
-      return root.children.map{|c| { id: c.id, title: c.title, image: c.image }}
+      return root.children.order(weight: 'asc').map{|c| { id: c.id, title: c.title, image: c.image.small.url }}
     end
   end
 
