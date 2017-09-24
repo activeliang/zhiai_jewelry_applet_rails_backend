@@ -1,6 +1,5 @@
 class ProductsController < ApplicationController
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
-
   def index
     @q = Product.ransack(params[:q])
     @products = @q.result.includes(:category).paginate(:page => params[:page], :per_page => 25)

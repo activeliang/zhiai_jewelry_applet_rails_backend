@@ -1,63 +1,13 @@
-
-<!DOCTYPE HTML>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>Bootstrap 3 的多级下拉菜单示例</title>
-
-    <style type="text/css">
-
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="form-group">
-
-                <input type="hidden" name="category_id" id="category_id" value="" />
-                <div class="dropdown">
-            		<a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-white" data-target="#" href="javascript:;"><span id="select-title">选择分类</span> <span class="caret"></span></a>
-            		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                        <li><a href="javascript:;" data-index="1" data-title="一级菜单">一级菜单</a></li>
-                        <li class="dropdown-submenu">
-                        	<a href="javascript:;" data-index="2" data-title="一级菜单">一级菜单</a>
-                            <ul class="dropdown-menu">
-                                <li><a data-index="2-1" href="javascript:;" data-title="二级菜单">二级菜单</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="dropdown-submenu">
-                            <a tabindex="3" href="javascript:;" data-title="一级菜单">一级菜单</a>
-                            <ul class="dropdown-menu">
-                                <li><a tabindex="3-1" href="javascript:;" data-title="二级菜单">二级菜单</a></li>
-                                <li class="divider"></li>
-                                <li class="dropdown-submenu">
-                                    <a href="javascript:;" data-index="3-2" data-title="二级菜单">二级菜单</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="javascript:;" data-index="3-2-1" data-title="三级菜单">三级菜单</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-            		</ul>
-        		</div>
-
-            </div>
-    </div>
+<link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+<div id="stars"></div>
+<div id="stars2"></div>
+<div id="stars3"></div>
+<div id="title">
+  <span>
+    亮锅后台
+  </span>
+  <br />
+  <span>
+    实现更有价值的计算
+  </span>
 </div>
-</body>
-</html>
-
-<script type="text/javascript">
-
-
-$('.dropdown li a').click(function(){
-
-	console.log(this);
-	title = $(this).attr("data-title");
-	id = $(this).attr("data-index");
-	$("#select-title").text(title);
-	$("#category_id").val(id);
-})
-
-</script>
