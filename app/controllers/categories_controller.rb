@@ -11,9 +11,12 @@ class CategoriesController < ApplicationController
         scroll_a = []
         item_a = []
         tmp = 0
-        @category_roots.map{|x| scroll_a << tmp += ((x.children.count + x.products.count) / 3.000).ceil * 110 + 106  }
-        @category_roots.map{|x| item_a << ((x.children.count + x.products.count) / 3.000).ceil * 70 + 30 }
-        render :json => { item_a: item_a, scroll_detail: scroll_a, test: "test", tree:  @category_roots.map{|r| { id: r.id, title: r.title, products: render_products(r), children: render_children(r) }}}
+        sum = Hash.new(0)
+        # binding.pry
+        @category_roots.map{|x| scroll_a <<  ((x.children.count + x.products.count) / 3.000).ceil }
+        @category_roots.map{|x| item_a << ((x.children.count + x.products.count) / 3.000).ceil * 126 + 88 }
+        @category_roots.map{|x| sum["item"] += ((x.children.count + x.products.count) / 3.000).ceil; sum["title"] += 1}
+        render :json => {sum: sum, item_a: item_a, scroll_detail: scroll_a, test: "test", tree:  @category_roots.map{|r| { id: r.id, title: r.title, products: render_products(r), children: render_children(r) }}}
       }
     end
   end
