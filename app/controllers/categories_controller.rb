@@ -1,12 +1,14 @@
 class CategoriesController < ApplicationController
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
-  before_action :find_category, only: [:update_column, :destroy]
+  before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide]
 
   def index
     @category_roots = Category.includes(:products).roots.order(weight: 'asc')
     @category = Category.new
     respond_to do |format|
-      format.html
+      format.html{
+        @index_show_category = Category.where(index_show: true).order(index_weight: 'asc')
+      }
       format.json{
         scroll_a = []
         item_a = []
@@ -58,6 +60,9 @@ class CategoriesController < ApplicationController
     @category.image = params[:category][:image] if params[:category][:image].present?
     @category.weight = params[:category][:weight] if params[:category][:weight].present?
     @category.title = params[:category][:title] if params[:category][:title].present?
+    @category.index_show = params[:category][:index_show] if params[:category][:index_show].present?
+    @category.index_image = params[:category][:index_image] if params[:category][:index_image].present?
+    @category.index_weight = params[:category][:index_weight] if params[:category][:index_weight].present?
     if @category.save
       redirect_to :back, notice: "已更新！"
     else
@@ -118,6 +123,20 @@ class CategoriesController < ApplicationController
     category = Category.find(params[:id])
     if category.present?
       render :json => { id: category.id, title: category.title, weight: category.weight, image: (category.image.url if category.image.present?)}
+    end
+  end
+
+  def index_show
+    @category.index_show = true
+    if @category.save
+      redirect_to :back, notice: "更新成功~"
+    end
+  end
+
+  def index_hide
+    @category.index_show = false
+    if @category.save
+      redirect_to :back, notice: "更新成功~"
     end
   end
 

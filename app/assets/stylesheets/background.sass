@@ -1,6 +1,7 @@
 
 
 // n is number of stars required
+
 @function multiple-box-shadow ($n)
   $value: '#{random(2000)}px #{random(2000)}px #FFF'
   @for $i from 2 through $n
@@ -12,7 +13,7 @@ $shadows-small:  multiple-box-shadow(700)
 $shadows-medium: multiple-box-shadow(200)
 $shadows-big:    multiple-box-shadow(100)
 
-html
+#homepage
   height: 100%
   background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%)
   overflow: hidden
@@ -74,7 +75,7 @@ html
   color: #FFF
   text-align: center
   font-family: 'lato',sans-serif
-  font-weight: 300
+  font-weight: 400
   font-size: 50px
   letter-spacing: 10px
 
@@ -91,4 +92,3 @@ html
     transform: translateY(0px)
   to
     transform: translateY(-2000px)
-    

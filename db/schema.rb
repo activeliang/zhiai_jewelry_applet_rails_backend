@@ -10,15 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918122702) do
+ActiveRecord::Schema.define(version: 20170925085343) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
     t.integer  "weight"
     t.string   "ancestry"
     t.string   "image"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "index_show",   default: false
+    t.string   "index_image"
+    t.integer  "index_weight"
     t.index ["ancestry", "weight"], name: "index_categories_on_ancestry_and_weight"
   end
 
@@ -64,6 +67,16 @@ ActiveRecord::Schema.define(version: 20170918122702) do
     t.datetime "updated_at",                          null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "wechat_slider_images", force: :cascade do |t|
+    t.string   "image"
+    t.integer  "weight"
+    t.boolean  "is_hide",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "product_id"
+    t.index ["weight"], name: "index_wechat_slider_images_on_weight"
   end
 
 end

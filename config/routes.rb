@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       post :update_form_api
       get :get_category_detail
       post :update_image_form_api
+      post :index_show
+      post :index_hide
     end
   end
   resources :products do
@@ -26,6 +28,13 @@ Rails.application.routes.draw do
       post :update_form_wechat
       post :update_product_image
       get :get_product_detail
+    end
+  end
+  resources :homeset do
+    member do
+      post :update_column
+      post :hide
+      post :public
     end
   end
 end
