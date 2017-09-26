@@ -5,10 +5,12 @@ class HomesetController < ApplicationController
     respond_to do |format|
       format.html{
         @slider_image = WechatSliderImage.new
+
       }
       format.json{
+        products = Product.where(index_show: true).order(weight: 'asc')
         index_category = Category.where(index_show: true).order(index_weight: 'asc')
-        render :json => {slider_images: @slider_images.map{|x| {image: x.image.url, id: x.id}}, index_category: index_category.map{|x| { id: x.id, title: x.title, image: x.index_image.url}}}
+        render :json => {slider_images: @slider_images.map{|x| {image: x.image.url, id: x.id}}, index_category: index_category.map{|x| { id: x.id, title: x.title, image: x.index_image.url}}, products: products.map{|x| {id: x.id, title: x.title, sub_title: x.sub_title, image: x.main_image, price: x.price}} }
       }
 
     end

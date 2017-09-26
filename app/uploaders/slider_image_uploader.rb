@@ -8,7 +8,7 @@ class SliderImageUploader < CarrierWave::Uploader::Base
   # storage :file
   # storage :fog
   storage :qiniu
-  
+
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -20,6 +20,9 @@ class SliderImageUploader < CarrierWave::Uploader::Base
 
   version :small do
     process resize_to_fit: [100, 100]
+  end
+  version :homepage do
+    process resize_to_fill: [800, 500]
   end
 
 

@@ -9,6 +9,8 @@ class Product < ApplicationRecord
     class_name: :ProductImage
 
   def main_image
-    self.product_images.order(weight: 'asc').first.image.url
+    if self.product_images.present?
+      self.product_images.order(weight: 'asc').last.image.url
+    end
   end
 end
