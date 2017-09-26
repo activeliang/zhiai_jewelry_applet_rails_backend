@@ -10,7 +10,7 @@ class Product < ApplicationRecord
 
   def main_image
     if self.product_images.present?
-      self.product_images.order(weight: 'asc').last.image.url
+      self.product_images.order(weight: 'asc').shuffle.last.image.url
     end
   end
 end
