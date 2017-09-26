@@ -18,7 +18,7 @@
     <% @slider_images.each do |img| %>
       <tr width=300>
         <td>
-          <% if img.image.present? %>
+          <% if img.present? %>
             <%= image_tag img.image.small.url, class: "thumbnail img-responsive" %>
           <% end %>
         </td>
