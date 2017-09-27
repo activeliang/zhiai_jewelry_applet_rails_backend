@@ -38,11 +38,16 @@ class CategoriesController < ApplicationController
 
   # json格式为获取当前分类下的所有产品数据
   def show
-    @category = Category.includes(:products).find(params[:id])
+    if params[:title] == "新品"
+      @category = Category.new
+      @category.products = Product.where( "created_at >= ?", (Date.today - 30).beginning_of_day )
+    else
+      @category = Category.includes(:products).find(params[:id])
+    end
     respond_to do |format|
       format.html
       format.json{
-        render :json => @category.products.map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.product_images.first.image.url}}
+        render :json => @category.products.includes(:product_images).map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_product_image}}
       }
     end
   end

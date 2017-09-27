@@ -23,6 +23,9 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
     if @product.save
+      params[:product][:images].each do |img|
+        @product.product_images << ProductImage.new(image: img)
+      end
       redirect_to products_path, notice: "create success!新增成功~"
     else
       render :new
@@ -95,7 +98,7 @@ class ProductsController < ApplicationController
 
   private
   def product_params
-    params.require(:product).permit(:title, :sub_title, :description, :video, :in_sale, :index_show, :weight, :price, :is_hide, :category_id, :images => [])
+    params.require(:product).permit(:title, :sub_title, :description, :video, :in_sale, :index_show, :weight, :price, :is_hide, :category_id)
   end
 
   def find_product
