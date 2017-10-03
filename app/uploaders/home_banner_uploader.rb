@@ -1,4 +1,4 @@
-class HomepageCategoryImageUploader < CarrierWave::Uploader::Base
+class HomeBannerUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -15,9 +15,12 @@ class HomepageCategoryImageUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-
   self.qiniu_can_overwrite = true
 
+
+  version :small do
+    process resize_to_fill: [600, 375]
+  end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   # def default_url(*args)

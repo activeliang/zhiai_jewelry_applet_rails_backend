@@ -18,8 +18,8 @@ class CategoryImageUploader < CarrierWave::Uploader::Base
   self.qiniu_can_overwrite = true
 
 
-  version :small do
-    process resize_to_fit: [100, 100]
+  version :thumb do
+    process resize_to_fill: [150, 130]
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

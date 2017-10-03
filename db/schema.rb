@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925085343) do
+ActiveRecord::Schema.define(version: 20171001022159) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -23,6 +23,18 @@ ActiveRecord::Schema.define(version: 20170925085343) do
     t.string   "index_image"
     t.integer  "index_weight"
     t.index ["ancestry", "weight"], name: "index_categories_on_ancestry_and_weight"
+  end
+
+  create_table "homesets", force: :cascade do |t|
+    t.string   "banner"
+    t.string   "shop_title"
+    t.string   "open_time"
+    t.string   "address"
+    t.string   "phone_no"
+    t.string   "shop_video"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "logo"
   end
 
   create_table "product_images", force: :cascade do |t|

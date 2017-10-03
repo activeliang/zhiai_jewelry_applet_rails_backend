@@ -17,3 +17,10 @@
 @import "bootstrap-sprockets";
 @import "font-awesome";
 @import "dropdown-menu";
+
+
+// 所有file设置宽度
+input[type="file"] {
+    display: block;
+    width: 164px;
+}

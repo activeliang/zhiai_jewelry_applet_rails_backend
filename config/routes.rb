@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'welcome#yy'
+  get "welcome" => "welcome#index"
 
   get "yy" => "welcome#yy"
 
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
       post :update_image_form_api
       post :index_show
       post :index_hide
+      post :delete_category
     end
   end
   resources :products do
@@ -33,8 +35,13 @@ Rails.application.routes.draw do
   resources :homeset do
     member do
       post :update_column
+      post :update_column_homeset
       post :hide
       post :public
+    end
+    collection do
+      # 获取小程序首页的图片，标题等配置
+      get :get_wechat_homeset
     end
   end
 end

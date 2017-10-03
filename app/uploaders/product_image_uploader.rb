@@ -19,8 +19,16 @@ class ProductImageUploader < CarrierWave::Uploader::Base
   self.qiniu_can_overwrite = true
 
 
+   version :medium do
+     process resize_to_fill: [600, 660]
+   end
+
    version :small do
-     process resize_to_fit: [400, 250]
+     process resize_to_fill: [600, 375]
+   end
+
+   version :thumb do
+     process resize_to_fill: [250, 200]
    end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

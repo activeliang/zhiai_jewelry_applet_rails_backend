@@ -42,7 +42,7 @@
             </td>
             <td>
               <% if c.image.present? %>
-                <%= image_tag(c.image.small.url, class: "img-responsive thumbnail", width: '70') %>
+                <%= image_tag(c.image.thumb.url, class: "img-responsive thumbnail", width: '70') %>
               <% else %>
                 <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
               <% end %>
@@ -60,11 +60,10 @@
               <% end %>
             </td>
             <td>
+              <%= render_hide_status(c.index_show) %>
               <% if c.index_show %>
-                <span class="label label-success">在首页推广</span>
                 <%= link_to "下架", index_hide_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
              <% else %>
-               不在首页推广
                <%= link_to "上架", index_show_category_path(c), method: :post, class: "btn btn-xs btn-success" %>
               <% end %>
             </td>
@@ -129,12 +128,12 @@
           <td><%= c.title %></td>
           <td>
             <% if c.image.present? %>
-            <%= image_tag c.image.small.url, class: "thumbnail img-responsive" %>
+            <%= image_tag c.image.thumb.url, class: "thumbnail img-responsive" %>
             <% end %>
           </td>
           <td width=130>
             <% if c.index_image.present? %>
-            <%= image_tag c.index_image.url, class: "thumbnail img-responsive"  %>
+            <%= image_tag c.index_image.thumb.url, class: "thumbnail img-responsive"  %>
             <% end %>
           </td>
           <td>

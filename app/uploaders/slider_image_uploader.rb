@@ -18,12 +18,10 @@ class SliderImageUploader < CarrierWave::Uploader::Base
   self.qiniu_can_overwrite = true
 
 
-  version :small do
-    process resize_to_fit: [100, 100]
+  version :medium do
+    process resize_to_fill: [600, 660]
   end
-  version :homepage do
-    process resize_to_fill: [800, 500]
-  end
+
 
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

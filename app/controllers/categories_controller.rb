@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
-  before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide]
+  before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide, :delete_category]
 
   def index
     @category_roots = Category.includes(:products).roots.order(weight: 'asc')
@@ -47,7 +47,7 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html
       format.json{
-        render :json => @category.products.includes(:product_images).map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_product_image}}
+        render :json => @category.products.includes(:product_images).map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image_thumb}}
       }
     end
   end
@@ -145,6 +145,14 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def delete_category
+    title = @category.title
+    if @category.destroy
+      render :json => {status: "ok", info: "【#{title}】已删除！"}
+    else
+      render :json => {status: "failed", info: "删除失败，请联系程序员..."}
+    end
+  end
 
 
 
@@ -161,11 +169,11 @@ class CategoriesController < ApplicationController
 
   def render_children(root)
     if root.children.present?
-      return root.children.order(weight: 'asc').map{|c| { id: c.id, title: c.title, image: c.image.small.url }}
+      return root.children.order(weight: 'asc').map{|c| { id: c.id, title: c.title, image: c.image.thumb.url }}
     end
   end
 
   def render_products(root)
-    return root.products.map{|p| { id: p.id, title: p.title, image: (p.product_images.present? ? p.product_images.last.image.small.url : "")}}
+    return root.products.map{|p| { id: p.id, title: p.title, image: (p.product_images.present? ? p.product_images.last.image.thumb.url : "")}}
   end
 end

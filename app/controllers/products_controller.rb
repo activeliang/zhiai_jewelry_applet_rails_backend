@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
       format.html
       format.json{
         if params[:q][:title_or_sub_title_cont].present?
-          render :json => { products: @products.map{|p| { id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image}}, paginate: { current_page: @products.current_page, previous_page: @products.previous_page, next_page: @products.next_page, total_page: @products.total_pages}}
+          render :json => { products: @products.map{|p| { id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image_thumb}}, paginate: { current_page: @products.current_page, previous_page: @products.previous_page, next_page: @products.next_page, total_page: @products.total_pages}}
         else
           render :josn => {status: "error"}
         end
@@ -78,7 +78,7 @@ class ProductsController < ApplicationController
         random_product = Product.includes(:product_images).order("RANDOM()").limit(15)
         p = @product
         # binding.pry
-        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: render_product_all_images(p) }, random_product: random_product.map{|p| { id: p.id, image: render_product_main_image(p), title: p.title, sub_title: p.sub_title, price: p.price}}, product_main_img: p.main_image}
+        render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: render_product_all_images(p) }, random_product: random_product.map{|p| { id: p.id, image: render_product_main_image(p), title: p.title, sub_title: p.sub_title, price: p.price}}, product_main_img: p.main_image_small}
       }
     end
   end
@@ -107,13 +107,13 @@ class ProductsController < ApplicationController
 
   def render_product_all_images(product)
     if product.product_images.present?
-      product.product_images.order(weight: "asc").map{|i| i.image.url}
+      product.product_images.order(weight: "asc").map{|i| i.image.medium.url}
     end
   end
 
   def render_product_main_image(product)
     if product.product_images.present?
-      product.product_images.first.image.url
+      product.product_images.first.image.thumb.url
     end
   end
 end

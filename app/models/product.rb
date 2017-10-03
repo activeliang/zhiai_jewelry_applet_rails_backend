@@ -8,9 +8,19 @@ class Product < ApplicationRecord
   has_one :main_product_image, -> { order(weight: 'asc') },
     class_name: :ProductImage
 
-  def main_image
+  def main_image_thumb
     if self.product_images.present?
-      self.product_images.order(weight: 'asc').shuffle.last.image.url
+      self.product_images.order(weight: 'asc').shuffle.last.image.thumb.url
+    end
+  end
+  def main_image_small
+    if self.product_images.present?
+      self.product_images.order(weight: 'asc').shuffle.last.image.small.url
+    end
+  end
+  def main_image_medium
+    if self.product_images.present?
+      self.product_images.order(weight: 'asc').shuffle.last.image.medium.url
     end
   end
 end
