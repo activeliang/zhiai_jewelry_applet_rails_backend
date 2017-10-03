@@ -1,0 +1,24 @@
+<% unless @user.errors.empty? %>
+      <div class="alert alert-danger">
+        <ul>
+          <% @user.errors.messages.values.flatten.each do |error| %>
+            <li><%= error %></li>
+          <% end -%>
+        </ul>
+      </div>
+<% end %>
+<div class="sign-form input-group text-center">
+  <div class="input-slogan">新用户注册</div>
+    <%= form_for :user, url: users_path, method: :post, html: { class: 'form-horizontal', id: "user_form"} do |f| %>
+      <!-- 输入手机号 -->
+      <%= f.text_field :phone, class: "form-control input-item phone", placeholder: "11位手机号码"%>
+      <!-- 输入密码 -->
+      <%= f.password_field :password, class: "form-control input-item  password" ,id:"signup-input" , placeholder: "密码" %>
+      <!-- 密码确认 -->
+      <%= f.password_field :password_confirmation, class: "form-control input-item confirm", id:"signup-input", placeholder: "密码确认"%>
+      <!-- 创建帐户 -->
+      <%= link_to "已有账号？去登录", new_session_path, class: "link-to-sign-in" %>
+
+      <%= f.submit "提交", class: "btn btn-primary btn-block sign-in-btn" %>
+  <% end %>
+</div>

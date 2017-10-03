@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :admin_required, except: [:index]
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
   def index
     @q = Product.ransack(params[:q])

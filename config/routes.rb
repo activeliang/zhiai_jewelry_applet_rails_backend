@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  # 登入用：
+  resources :sessions
+  resources :users
+  delete '/logout' => 'sessions#destroy', as: :logout
+
   root 'welcome#yy'
   get "welcome" => "welcome#index"
 

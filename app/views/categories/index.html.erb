@@ -1,14 +1,14 @@
 <div class="row">
   <div class="container-fluid">
   <!-- bootstrap标签风格 -->
-    <ul class="nav nav-tabs" role="tablist" id="myTabs">
-      <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">所有分类列表</a></li>
-      <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">在首页推广的分类管理</a></li>
-    </ul>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active test-btn"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">所有分类汇总</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">在小程序首页推广的分类</a></li>
+  </ul>
 
 <!-- 第一个卡片 -->
 <div class="tab-content">
-  <div role="tabpanel" class="tab-pane active" id="home">
+  <div role="tabpanel" class="tab-pane fade in active" id="home">
     <% @category_roots.each do |root| %>
       <div class="row well well-sm well-success">
         <div class="col-sm-5">
@@ -163,12 +163,9 @@
 
 <script>
 // bootstrap的卡片辅助js
-$('#myTabs a').click(function (e) {
-  e.preventDefault()
-  $(this).tab('show')
-})
 
-$('#myTabs a[href="#allrecord"]').tab('show') // Select tab by name
+
+$('#myTabs a[href="#profile"]').tab('show') // Select tab by name
 $('#myTabs a:first').tab('show') // Select first tab
 $('#myTabs a:last').tab('show') // Select last tab
 $('#myTabs li:eq(2) a').tab('show') // Select third tab (0-indexed)

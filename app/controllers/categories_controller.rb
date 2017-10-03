@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  before_action :admin_required, except: [:index]
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
   before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide, :delete_category]
 
