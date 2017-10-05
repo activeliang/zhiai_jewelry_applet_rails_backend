@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root 'welcome#yy'
   get "welcome" => "welcome#index"
+  # post "test" 
 
   get "yy" => "welcome#yy"
 

@@ -1,3 +1,5 @@
+<legend class="text-center">分类管理<i class="fa fa-cogs" aria-hidden="true"></i></legend>
+
 <div class="row">
   <div class="container-fluid">
   <!-- bootstrap标签风格 -->
@@ -41,17 +43,21 @@
               <% end %>
             </td>
             <td>
-              <% if c.image.present? %>
-                <%= image_tag(c.image.thumb.url, class: "img-responsive thumbnail", width: '70') %>
-              <% else %>
-                <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
-              <% end %>
-            </td>
-            <td>
-              <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
-              <%= f.file_field :image %>
-              <%= f.submit "更新", class: "btn btn-xs btn-default" %>
-              <% end %>
+              <div class="row">
+                <div class="col-sm-12">
+                  <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+                  <%= f.file_field :image %>
+                  <%= f.submit "更新", class: "btn btn-xs btn-success btn-block" %>
+                  <% end %>
+                </div>
+                <div class="col-sm-12">
+                  <% if c.image.present? %>
+                    <%= image_tag(c.image.thumb.url, class: "img-responsive thumbnail", width: '70') %>
+                  <% else %>
+                    <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
+                  <% end %>
+                </div>
+              </div>
             </td>
             <td>
               <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
@@ -60,7 +66,7 @@
               <% end %>
             </td>
             <td>
-              <%= render_hide_status(c.index_show) %>
+              <%= render_hide_status(c.index_show == false) %>
               <% if c.index_show %>
                 <%= link_to "下架", index_hide_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
              <% else %>

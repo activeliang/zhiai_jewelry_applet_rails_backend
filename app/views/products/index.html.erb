@@ -1,4 +1,4 @@
-<h2>all records</h2>
+<legend class="text-center">产品管理<i class="fa fa-cogs" aria-hidden="true"></i></legend>
 
   <%= search_form_for @q, :url => products_path do |f| %>
 
@@ -17,7 +17,7 @@
       <th>视频</th>
       <th>是否有货</th>
       <th>首页展示？</th>
-      <th>状态</th>
+      <th>上架状态</th>
       <th>权重</th>
       <th>多图</th>
     </tr>
@@ -35,14 +35,18 @@
             <video controls class="embed-responsive-item" src="<%= p.video.url %>"></video>
           </div>
         </td>
-        <td><%= p.in_stock %></td>
-        <td><%= p.index_show %></td>
-        <td><%= p.is_hide ? "下架" : "上架" %></td>
+        <td><%= render_hide_status(p.in_stock == false) %></td>
+        <td><%= render_hide_status(p.index_show == false) %></td>
+        <td><%= render_hide_status(p.is_hide) %></td>
         <td><%= p.weight %></td>
         <td width=300>
-           <% p.product_images.each do |img| %>
-           <%= image_tag(img.image.small.url, class: "thumbnail img-responsive") %>
-           <% end %>
+           <div class="image-group">
+             <% p.product_images.each do |img| %>
+               <div class="image-item">
+                 <%= image_tag(img.image.small.url, class: "thumbnail img-responsive") %>
+               </div>
+             <% end %>
+           </div>
         </td>
 
       </tr>
