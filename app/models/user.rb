@@ -13,6 +13,7 @@ class User < ApplicationRecord
    if: :need_validate_password
  validate :validate_phone, on: :create
 
+ has_many :wechat_users
 
   def admin?
     is_admin

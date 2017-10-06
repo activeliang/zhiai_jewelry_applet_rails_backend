@@ -49,7 +49,7 @@ gem 'qiniu-rs'
 gem 'will_paginate'
 
 gem 'ransack'
-
+gem 'rest-client'
 gem 'figaro'
 gem 'faker'
 gem 'pg'

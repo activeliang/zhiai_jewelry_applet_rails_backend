@@ -281,6 +281,7 @@ DEPENDENCIES
   rails (~> 5.0.2)
   ransack
   redis
+  rest-client
   sass-rails (~> 5.0)
   simple_form
   sorcery

@@ -1,12 +1,17 @@
 Rails.application.routes.draw do
   # 登入用：
-  resources :sessions
+  resources :sessions do
+    collection do
+      post :wechat_login
+      post :admin_required
+    end
+  end
   resources :users
   delete '/logout' => 'sessions#destroy', as: :logout
 
   root 'welcome#yy'
   get "welcome" => "welcome#index"
-  # post "test" 
+  # post "test"
 
   get "yy" => "welcome#yy"
 

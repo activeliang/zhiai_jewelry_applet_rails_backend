@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
   layout 'application'
 
   def admin_required
-    if logged_in?
-      if !current_user.admin?
+    if current_user?
+      if !current_user.admin? || current_wechat_user.admin?
         redirect_to "/", alert: "您不是管理员，请以管理员账号登入！"
       end
     else
@@ -17,5 +17,10 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "请登录~"
       redirect_to new_session_path
     end
+  end
+
+  private
+  def current_wechat_user
+    WechatUser.find_by_client_token(request.headers['Authorization']).user
   end
 end

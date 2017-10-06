@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003031625) do
+ActiveRecord::Schema.define(version: 20171006122234) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 20171003031625) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "logo"
+  end
+
+  create_table "login_logs", force: :cascade do |t|
+    t.integer  "wechat_user_id"
+    t.datetime "login_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "product_images", force: :cascade do |t|
@@ -94,6 +101,23 @@ ActiveRecord::Schema.define(version: 20171003031625) do
     t.datetime "updated_at",                 null: false
     t.integer  "product_id"
     t.index ["weight"], name: "index_wechat_slider_images_on_weight"
+  end
+
+  create_table "wechat_users", force: :cascade do |t|
+    t.string   "nickname"
+    t.string   "city"
+    t.string   "country"
+    t.string   "province"
+    t.string   "avatar_url"
+    t.string   "wx_code"
+    t.string   "session_key"
+    t.string   "open_id"
+    t.string   "client_token"
+    t.integer  "gender"
+    t.integer  "user_id"
+    t.datetime "expired_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
 end
