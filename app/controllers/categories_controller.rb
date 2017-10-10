@@ -90,7 +90,7 @@ class CategoriesController < ApplicationController
 
   # 新增来自wechat端
   def create_form_api
-    binding.pry
+    # binding.pry
     category = Category.new title: params[:title], weight: params[:weight], ancestry: ( params[:parent_id] if params[:parent_id].present? )
     if category.save
       render :json => { status: "ok", id: category.id }
