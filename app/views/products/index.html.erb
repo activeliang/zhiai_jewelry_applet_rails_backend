@@ -31,13 +31,22 @@
         <td><%= p.description %></td>
         <td><%= p.price %></td>
         <td width=400>
-          <div class="embed-responsive embed-responsive-4by3">
+          <div style="width: 300px;" class="embed-responsive embed-responsive-4by3">
             <video controls class="embed-responsive-item" src="<%= p.video.url %>"></video>
           </div>
         </td>
-        <td><%= render_hide_status(p.in_stock == false) %></td>
-        <td><%= render_hide_status(p.index_show == false) %></td>
-        <td><%= render_hide_status(p.is_hide) %></td>
+        <td>
+          <%= render_hide_status(p.in_stock == false) %>
+          <%= link_to "更改状态", change_in_stock_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
+        </td>
+        <td>
+          <%= render_hide_status(p.index_show == false) %>
+          <%= link_to "更改状态", chage_index_show_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
+        </td>
+        <td>
+          <%= render_hide_status(p.is_hide) %>
+          <%= link_to "更改状态", change_is_hide_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
+        </td>
         <td><%= p.weight %></td>
         <td width=300>
            <div class="image-group">

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   # post "test"
 
   get "yy" => "welcome#yy"
+  get '/admin/recent_login_log' => "admin/recent_login_log"
+  get '/admin/get_user_login_log' => "admin/get_user_login_log"
 
 
   resources :categories do
@@ -38,8 +40,12 @@ Rails.application.routes.draw do
     end
     member do
       post :update_form_wechat
-      post :update_product_image
+      post :add_product_image
       get :get_product_detail
+      post :change_is_hide_status
+      post :change_in_stock_status
+      post :chage_index_show_status
+      delete :delete_form_wechat
     end
   end
   resources :homeset do
@@ -52,6 +58,13 @@ Rails.application.routes.draw do
     collection do
       # 获取小程序首页的图片，标题等配置
       get :get_wechat_homeset
+    end
+  end
+  resources :collects do
+    collection do
+      post :create_collect
+      delete :remove_clooect
+      get :my_collects
     end
   end
 end

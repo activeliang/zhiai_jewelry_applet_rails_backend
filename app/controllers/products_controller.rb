@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
-  before_action :admin_required, except: [:index]
+  before_action :auth_admin_or_wechat_user
+  before_action :admin_required_site_or_wechat, only: [:create_form_wechat, :update_form_wechat, :update_product_image ]
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
   def index
     @q = Product.ransack(params[:q])
@@ -36,9 +37,9 @@ class ProductsController < ApplicationController
   def create_form_wechat
     product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
     if product.save
-      render :json => {status: "ok", id: product.id}
+      render :json => { status: "ok", id: product.id }
     else
-      render :json => {status: "新增失败，请联系管理员"}
+      render :json => { status: "failed", info: product.errors.messages.values.flatten }
     end
     # binding.pry
   end
@@ -58,17 +59,17 @@ class ProductsController < ApplicationController
       if product.save!
         render :json => {status: "ok", id: product.id}
       else
-        render :json => {status: "failed"}
+        render :json => { status: "failed", info: product.errors.messages.values.flatten }
       end
 
   end
 
-  def update_product_image
+  def add_product_image
     # product = Product.find(params[:id])
     # product.product_images.create! image: params[:image] if params[:image].present?
-    # binding.pry
+    binding.pry
     p = ProductImage.create product_id: params[:id], image: params[:image] if params[:image].present?
-    render :json => {status: "ok", id: p.id}
+    render :json => "ok"
   end
 
   def show
@@ -96,6 +97,51 @@ class ProductsController < ApplicationController
     p = Product.find(params[:id])
     render :json => {id: p.id, title: p.title, sub_title: p.sub_title, description: p.description, price: p.price, video: p.video, weight: p.weight, index_show: p.index_show, in_stock: p.in_stock, is_hide: p.is_hide, image: p.product_images.order(weight: 'asc').map{|i| i.image.url}, category_id: p.category_id, category_title: p.category.title}
   end
+
+   def change_is_hide_status
+     find_product
+     if @product.is_hide
+       @product.is_hide = false
+     else
+       @product.is_hide = true
+     end
+     @product.save
+
+     redirect_to :back, notice: "更新成功！"
+   end
+
+   def change_in_stock_status
+     find_product
+     if @product.in_stock
+       @product.in_stock = false
+     else
+       @product.in_stock = true
+     end
+     @product.save
+
+     redirect_to :back, notice: "更新成功！"
+   end
+
+   def chage_index_show_status
+     find_product
+     if @product.index_show
+       @product.index_show = false
+     else
+       @product.index_show = true
+     end
+     @product.save
+
+     redirect_to :back, notice: "更新成功！"
+   end
+
+   def delete_form_wechat
+     find_product
+     title = @product.title
+     if @product.destroy
+       render json: {status: "ok", info: "【#{title}】已删除~！"}
+     end
+   end
+
 
   private
   def product_params

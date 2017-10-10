@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
-  before_action :admin_required, except: [:index]
+  before_action :auth_admin_or_wechat_user
+  # before_action :admin_required_site_or_wechat
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
   before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide, :delete_category]
 
@@ -39,7 +40,7 @@ class CategoriesController < ApplicationController
 
   # json格式为获取当前分类下的所有产品数据
   def show
-    if params[:title] == "新品"
+    if params[:id] == "新品"
       @category = Category.new
       @category.products = Product.where( "created_at >= ?", (Date.today - 30).beginning_of_day )
     else
@@ -89,12 +90,13 @@ class CategoriesController < ApplicationController
 
   # 新增来自wechat端
   def create_form_api
+    binding.pry
     category = Category.new title: params[:title], weight: params[:weight], ancestry: ( params[:parent_id] if params[:parent_id].present? )
     if category.save
       render :json => { status: "ok", id: category.id }
     else
-      binding.pry
-      render :json => { status: "failed" }
+      # binding.pry
+      render :json => { status: "failed", info: category.errors.messages.values.flatten }
     end
   end
 
@@ -108,8 +110,8 @@ class CategoriesController < ApplicationController
     if category.save
       render :json => {status: "ok", id: category.id}
     else
-      binding.pry
-      render :json => { status: "failed"}
+      # binding.pry
+      render :json => { status: "failed", info: category.errors.messages.values.flatten }
     end
   end
 
@@ -119,7 +121,7 @@ class CategoriesController < ApplicationController
     if category.save
       render :json => "ok"
     else
-      binding.pry
+      # binding.pry
       render :json => { status: "failed"}
     end
   end
