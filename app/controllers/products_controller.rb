@@ -68,6 +68,7 @@ class ProductsController < ApplicationController
     # product = Product.find(params[:id])
     # product.product_images.create! image: params[:image] if params[:image].present?
     # binding.pry
+
     p = ProductImage.create product_id: params[:id], image: params[:image] if params[:image].present?
     render :json => "ok"
   end
