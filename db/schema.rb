@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171008063356) do
+ActiveRecord::Schema.define(version: 20171011053724) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -120,15 +120,16 @@ ActiveRecord::Schema.define(version: 20171008063356) do
     t.string   "country"
     t.string   "province"
     t.string   "avatar_url"
-    t.string   "wx_code"
     t.string   "session_key"
     t.string   "open_id"
     t.string   "client_token"
     t.integer  "gender"
     t.integer  "user_id"
-    t.datetime "expired_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.datetime "expired_at"
+    t.index ["client_token"], name: "index_wechat_users_on_client_token"
+    t.index ["open_id"], name: "index_wechat_users_on_open_id"
   end
 
 end
