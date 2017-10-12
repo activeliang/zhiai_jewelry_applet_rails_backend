@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :auth_admin_or_wechat_user
-  before_action :admin_required_site_or_wechat, only: [:create_form_wechat, :update_form_wechat, :update_product_image ]
+  # before_action :admin_required_site_or_wechat, only: [:create_form_wechat, :update_form_wechat, :update_product_image ]
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
   def index
     @q = Product.ransack(params[:q])
@@ -70,7 +70,7 @@ class ProductsController < ApplicationController
     # binding.pry
 
     p = ProductImage.create product_id: params[:id], image: params[:image] if params[:image].present?
-    render :json => "ok"
+    render :json => { status: "ok", id: p.id }
   end
 
   def show

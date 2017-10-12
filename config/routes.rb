@@ -45,7 +45,7 @@ Rails.application.routes.draw do
       post :change_is_hide_status
       post :change_in_stock_status
       post :chage_index_show_status
-      delete :delete_form_wechat
+      post :delete_form_wechat
     end
   end
   resources :homeset do
