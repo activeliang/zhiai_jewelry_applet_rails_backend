@@ -51,9 +51,11 @@
         <td width=300>
            <div class="image-group">
              <% p.product_images.each do |img| %>
-               <div class="image-item">
-                 <%= image_tag(img.image.small.url, class: "thumbnail img-responsive") %>
-               </div>
+               <% if img.image.present? %>
+                 <div class="image-item">
+                   <%= image_tag(img.image.small.url, class: "thumbnail img-responsive") %>
+                 </div>
+               <% end %>
              <% end %>
            </div>
         </td>

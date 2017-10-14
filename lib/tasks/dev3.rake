@@ -1,11 +1,10 @@
 namespace :dev3 do
 
-jewelry_video_url = "http://ovi8fy2di.bkt.clouddn.com/%E5%BE%AE%E9%95%B6%E8%A7%86%E9%A2%91.mp4"
+jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8Dp.mp4"
   task :fake => :environment do
 
     # 13次为分类增加产品，每个分类增加6个产品。
   13.times do |index|
-
     # 产品1
     product_1_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031414.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031649.jpg", "http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031833.jpg", "http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031955.jpg"]
     product_1 = Product.new(
@@ -40,7 +39,7 @@ jewelry_video_url = "http://ovi8fy2di.bkt.clouddn.com/%E5%BE%AE%E9%95%B6%E8%A7%8
     end
 
     # 产品3
-    product_3_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033929.jpg",""]
+    product_3_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033929.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074222.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074251.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074338.jpg"]
     product_3 = Product.new(
                 title: "QUEEN款耳坠女",
                 sub_title: "QUEEN款耳坠女 专柜同款耳饰 白18K金 镶嵌钻石耳钉珠宝 26分/I-J色",
