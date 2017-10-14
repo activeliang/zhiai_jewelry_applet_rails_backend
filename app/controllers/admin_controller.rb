@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
-  # before_action :auth_admin_or_wechat_user
-  before_action :admin_required_site_or_wechat
+  before_action :auth_admin_or_wechat_user
+  # before_action :admin_required_site_or_wechat
   def recent_login_log
     log = LoginLog.where( "login_at > ?", Date.today - 30).where(is_hide: false)
     users = WechatUser.where(id: log.map{|x| x.wechat_user_id})
