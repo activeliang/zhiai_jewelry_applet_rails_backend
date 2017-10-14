@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :auth_admin_or_wechat_user
   # before_action :admin_required_site_or_wechat, only: [:create_form_wechat, :update_form_wechat, :update_product_image ]
-  protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image]
+  protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image, :add_product_image]
   def index
     @q = Product.ransack(params[:q])
     @products = @q.result.includes(:category).paginate(:page => params[:page], :per_page => 25)
@@ -65,12 +65,12 @@ class ProductsController < ApplicationController
   end
 
   def add_product_image
-    # product = Product.find(params[:id])
-    # product.product_images.create! image: params[:image] if params[:image].present?
-    # binding.pry
-
-    p = ProductImage.create product_id: params[:id], image: params[:image] if params[:image].present?
-    render :json => { status: "ok", id: p.id }
+    # random_seconds = [0, 8, 16]
+    path = "#{Rails.root}/tmp/#{params[:image].original_filename}"
+    tempfile_path = params[:image].tempfile.path
+    copy_file(tempfile_path, path)
+    AddProductImgJob.perform_later(params[:id], path)
+    render :json => { status: "ok", id: params[:id]}
   end
 
   def show
@@ -161,7 +161,19 @@ class ProductsController < ApplicationController
 
   def render_product_main_image(product)
     if product.product_images.present?
-      product.product_images.first.image.thumb.url
+      product.product_images.shuffle.first.image.thumb.url
+    end
+  end
+
+  def render_redis_key(str1, str2)
+    "product_temfile:#{str1}:#{str2}"
+  end
+
+  def copy_file(from, to)
+    File.open(from) do |input|
+      File.open(to, "w") do |output|
+        output.write(input.read)
+      end
     end
   end
 end
