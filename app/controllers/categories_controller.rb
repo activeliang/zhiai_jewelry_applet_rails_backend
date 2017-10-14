@@ -176,6 +176,6 @@ class CategoriesController < ApplicationController
   end
 
   def render_products(root)
-    return root.products.map{|p| { id: p.id, title: p.title, image: (p.product_images.present? ? p.product_images.last.image.thumb.url : "")}}
+    return root.products.map{|p| { id: p.id, title: truncate(p.title, length: 8), image: (p.product_images.present? ? p.product_images.shuffle.last.image.thumb.url : "")}}
   end
 end
