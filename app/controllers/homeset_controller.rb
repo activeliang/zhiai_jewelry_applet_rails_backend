@@ -1,5 +1,5 @@
 class HomesetController < ApplicationController
-  before_action :auth_admin_or_wechat_user
+  # before_action :auth_admin_or_wechat_user
   before_action :find_slider_image, only: [:update_column, :destroy, :hide, :public]
   def index
     @slider_images = WechatSliderImage.order(weight: 'asc')

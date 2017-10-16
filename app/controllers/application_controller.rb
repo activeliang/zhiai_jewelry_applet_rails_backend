@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   def auth_admin_or_wechat_user
     unless current_wechat_user || current_user && current_user.admin?
       if request.headers['Authorization']
-        return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入！" }, status: 401
+        return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入！" }
       else
         redirect_to new_session_path, notice: "请先以管理员账号登陆~！"
       end
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   def admin_required_site_or_wechat
     unless current_wechat_user_is_admin? || currert_user_is_admin?
       if request.headers['Authorization']
-        return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入！" }, status: 401
+        return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入(管理员)！" }
       else
         redirect_to new_session_path, notice: "请先以管理员账号登陆~！"
       end
