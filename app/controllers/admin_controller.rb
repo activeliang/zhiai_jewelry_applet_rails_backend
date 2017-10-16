@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   before_action :auth_admin_or_wechat_user
   # before_action :admin_required_site_or_wechat
   def recent_login_log
-    log = LoginLog.where( "login_at > ?", Date.today - 30).where(is_hide: false)
+    log = LoginLog.where( "login_at > ?", Date.today - 30).where(is_hide: false).order(updated_at: "desc")
     users = WechatUser.where(id: log.map{|x| x.wechat_user_id})
     user_hash = Hash.new(0)
     helper_array = []
@@ -16,7 +16,7 @@ class AdminController < ApplicationController
   end
 
   def get_user_login_log
-    logs = LoginLog.where( wechat_user_id: params[:wechat_user_id])
+    logs = LoginLog.where( wechat_user_id: params[:wechat_user_id]).order(updated_at: "desc")
     detail = WechatUser.find(params[:wechat_user_id])
     render json: {logs: logs.map{|x| { date: x.login_at.strftime("%F"), time: x.login_at.strftime("%r").gsub(/AM|PM|\s/, ''), weekday: render_chinese_weekday(x.login_at.strftime("%A")), time_type: x.login_at.strftime("%p") == "AM" ? "上午" : "下午" } }, detail: detail}
   end
