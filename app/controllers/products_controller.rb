@@ -1,7 +1,8 @@
 class ProductsController < ApplicationController
   before_action :auth_admin_or_wechat_user
-  # before_action :admin_required_site_or_wechat, only: [:create_form_wechat, :update_form_wechat, :update_product_image ]
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image, :add_product_image]
+
+  # 首页
   def index
     @q = Product.ransack(params[:q])
     @products = @q.result.includes(:category).paginate(:page => params[:page], :per_page => 25)
@@ -9,19 +10,21 @@ class ProductsController < ApplicationController
       format.html
       format.json{
         if params[:q][:title_or_sub_title_cont].present?
-          render :json => { products: @products.map{|p| { id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image_thumb}}, paginate: { current_page: @products.current_page, previous_page: @products.previous_page, next_page: @products.next_page, total_page: @products.total_pages}}
+          render :json => { products: render_search_result(@product) }
         else
-          render :josn => {status: "error"}
+          render :josn => { status: "failed", info: "undefined" }
         end
       }
     end
   end
 
+  # 新增页面
   def new
     @product = Product.new
     @category_roots = Category.roots
   end
 
+  # 新增产品
   def create
     @product = Product.new(product_params)
     if @product.save
@@ -34,42 +37,20 @@ class ProductsController < ApplicationController
     end
   end
 
+  # 微信端新增产品
   def create_form_wechat
-    product = Product.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
-    if product.save
-      render :json => { status: "ok", id: product.id }
-    else
-      render :json => { status: "failed", info: product.errors.messages.values.flatten }
-    end
-    # binding.pry
+    render json: create_form_wechat!(params)
   end
 
+  # 微信端更新产品数据
   def update_form_wechat
-    product = Product.find(params[:id])
-      product.title = params[:title] if params[:title].present?
-      product.sub_title = params[:sub_title] if params[:sub_title].present?
-      product.description = params[:description] if params[:description].present?
-      product.video = params[:video] if params[:video].present?
-      product.price = params[:price] if params[:price].present?
-      product.in_stock = params[:in_stock] if params[:in_stock].present?
-      product.index_show = params[:index_show] if params[:index_show].present?
-      product.is_hide = params[:is_hide] if params[:is_hide].present?
-      product.weight = params[:weight] if params[:weight].present?
-
-      if product.save!
-        render :json => {status: "ok", id: product.id}
-      else
-        render :json => { status: "failed", info: product.errors.messages.values.flatten }
-      end
-
+      render json: update_form_wechat!(params)
   end
 
+  # 微信端新增产品图片
   def add_product_image
-    # random_seconds = [0, 8, 16]
-    path = "#{Rails.root}/tmp/#{params[:image].original_filename}"
-    tempfile_path = params[:image].tempfile.path
-    copy_file(tempfile_path, path)
-    AddProductImgJob.perform_later(params[:id], path)
+    find_product
+    @product.product_images.new image: params[:image]
     render :json => { status: "ok", id: params[:id]}
   end
 
@@ -80,7 +61,7 @@ class ProductsController < ApplicationController
       format.json{
         random_product = Product.includes(:product_images).order("RANDOM()").limit(15)
         p = @product
-        # binding.pry
+        # 小程序端产品detail页面
         render :json => {product: {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, description: p.description, video: p.video.url, images: render_product_all_images(p) }, random_product: random_product.map{|p| { id: p.id, image: render_product_main_image(p), title: p.title, sub_title: p.sub_title, price: p.price}}, product_main_img: p.main_image_small}
       }
     end
@@ -94,32 +75,19 @@ class ProductsController < ApplicationController
     end
   end
 
+  # 小程序端编辑产品时获取产品详情
   def get_product_detail
     p = Product.find(params[:id])
     render :json => {id: p.id, title: p.title, sub_title: p.sub_title, description: p.description, price: p.price, video: p.video, weight: p.weight, index_show: p.index_show, in_stock: p.in_stock, is_hide: p.is_hide, image: p.product_images.order(weight: 'asc').map{|i| i.image.url}, category_id: p.category_id, category_title: p.category.title}
   end
 
-   def change_is_hide_status
-     find_product
-     if @product.is_hide
-       @product.is_hide = false
-     else
-       @product.is_hide = true
-     end
-     @product.save
-
-     redirect_to :back, notice: "更新成功！"
-   end
+  def change_is_hide_status
+    change_is_hide_status!(params[:id])
+    redirect_to :back, notice: "更新成功！"
+  end
 
    def change_in_stock_status
-     find_product
-     if @product.in_stock
-       @product.in_stock = false
-     else
-       @product.in_stock = true
-     end
-     @product.save
-
+     change_in_stock_status!(params[:id])
      redirect_to :back, notice: "更新成功！"
    end
 
