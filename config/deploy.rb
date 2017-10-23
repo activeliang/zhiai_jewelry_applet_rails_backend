@@ -4,7 +4,7 @@ sh "ssh-add"
 lock "3.9.1"
 
 set :application, "huiyu_wechat"
-set :repo_url, "git@github.com:activeliang/huiyu_wechat_rails.git"
+set :repo_url, "git@github.com:activeliang/zhiai_jewelry_applet_rails_backend.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
