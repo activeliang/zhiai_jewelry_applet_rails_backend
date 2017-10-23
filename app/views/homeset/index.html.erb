@@ -122,11 +122,7 @@
         </td>
         <td>
           <%= render_hide_status img.is_hide %>
-          <% if img.is_hide %>
-            <%= link_to "上架", public_homeset_path(img), method: :post, class: "btn btn-xs btn-success" %>
-          <% else %>
-            <%= link_to "下架", hide_homeset_path(img), method: :post, class: "btn btn-xs btn-danger" %>
-          <% end %>
+          <%= link_to "更改状态", change_is_hide_status_homeset_path(img), method: :post, class: "btn btn-xs btn-success" %>
         </td>
         <td>
           <%= link_to "删除", homeset_path(img), method: :delete, "data-confirm": "确定吗？", class: "btn btn-sm btn-primary" %>

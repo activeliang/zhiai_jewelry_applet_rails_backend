@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :auth_admin_or_wechat_user
   protect_from_forgery except: [:alipay_notify, :create_form_wechat, :update_form_wechat, :update_product_image, :add_product_image]
-  before_action find_product: [:destroy, :change_is_hide_status, :change_in_stock_status, :chage_index_show_status, :delete_form_wechat]
+  before_action :find_product, only: [:destroy, :change_is_hide_status, :change_in_stock_status, :change_index_show_status, :change_is_hide_status, :delete_form_wechat]
   # 首页
   def index
     @q = Product.ransack(params[:q])

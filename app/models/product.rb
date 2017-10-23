@@ -57,7 +57,7 @@ class Product < ApplicationRecord
   end
 
   # 更新index_show状态
-  def change_index_show_status
+  def change_index_show_status!
     self.index_show = !self.index_show
     self.save
   end

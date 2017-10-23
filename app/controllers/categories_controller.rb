@@ -52,7 +52,7 @@ class CategoriesController < ApplicationController
 
   # 页面版的更新栏位数据
   def update_column
-    render json: @category.update_form_website(params, "website")
+    redirect_to :back, notice: @category.update_form_website(params)
   end
 
   # wechat端需要新增分类时，获取的分类列表

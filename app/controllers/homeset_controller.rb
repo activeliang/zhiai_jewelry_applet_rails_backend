@@ -1,6 +1,6 @@
 class HomesetController < ApplicationController
   before_action :auth_admin_or_wechat_user
-  before_action :find_slider_image, only: [:update_column, :destroy, :hide, :public]
+  before_action :find_slider_image, only: [:update_column, :destroy, :change_is_hide_status]
 
   def index
     @slider_images = WechatSliderImage.order(weight: 'asc')
@@ -43,7 +43,7 @@ class HomesetController < ApplicationController
     end
   end
 
-  def hide
+  def change_is_hide_status
     @slider_image.change_is_hide_status!
     redirect_to :back, notice: "已更改！"
   end

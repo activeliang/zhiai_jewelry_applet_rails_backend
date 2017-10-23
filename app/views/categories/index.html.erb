@@ -67,7 +67,7 @@
             </td>
             <td>
               <%= render_hide_status(c.index_show == false) %>
-              <%= link_to "下架", change_index_show_status_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
+              <%= link_to "更改状态", change_index_show_status_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
             </td>
             <td>
               <%= link_to "商品", category_path(c), class: "btn btn-success btn-xs" %>
@@ -147,7 +147,7 @@
           <td>
             <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
             <%= f.text_field :index_weight, value: c.index_weight %>
-            <%= f.submit "更新", class: "btn btn-xs btn-default btn-block" %>
+            <%= f.submit "更新", class: "btn btn-xs btn-default" %>
             <% end %>
           </td>
           <td><%= link_to "删除", category_path(c), method: :delete, class: "btn btn-xs btn-danger", "data-confirm": "确定删除？" %></td>
