@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   def index
   end
 
-  def yy
+  def home
     render layout: 'backgroundstar'
   end
 end

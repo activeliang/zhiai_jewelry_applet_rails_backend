@@ -9,11 +9,9 @@ Rails.application.routes.draw do
   resources :users
   delete '/logout' => 'sessions#destroy', as: :logout
 
-  root 'welcome#yy'
+  root 'welcome#home'
   get "welcome" => "welcome#index"
-  # post "test"
 
-  get "yy" => "welcome#yy"
   get '/admin/recent_login_log' => "admin/recent_login_log"
   get '/admin/get_user_login_log' => "admin/get_user_login_log"
 
@@ -28,9 +26,7 @@ Rails.application.routes.draw do
       post :update_column
       post :update_form_api
       get :get_category_detail
-      post :update_image_form_api
-      post :index_show
-      post :index_hide
+      post :change_index_show_status
       post :delete_category
     end
   end
@@ -44,7 +40,7 @@ Rails.application.routes.draw do
       get :get_product_detail
       post :change_is_hide_status
       post :change_in_stock_status
-      post :chage_index_show_status
+      post :change_index_show_status
       post :delete_form_wechat
     end
   end
@@ -52,8 +48,7 @@ Rails.application.routes.draw do
     member do
       post :update_column
       post :update_column_homeset
-      post :hide
-      post :public
+      post :change_is_hide_status
     end
     collection do
       # 获取小程序首页的图片，标题等配置

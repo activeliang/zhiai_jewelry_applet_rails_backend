@@ -67,11 +67,7 @@
             </td>
             <td>
               <%= render_hide_status(c.index_show == false) %>
-              <% if c.index_show %>
-                <%= link_to "下架", index_hide_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
-             <% else %>
-               <%= link_to "上架", index_show_category_path(c), method: :post, class: "btn btn-xs btn-success" %>
-              <% end %>
+              <%= link_to "下架", change_index_show_status_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
             </td>
             <td>
               <%= link_to "商品", category_path(c), class: "btn btn-success btn-xs" %>
@@ -89,7 +85,7 @@
         <%= f.input :title %>
         <%= f.input :weight %>
         <%= f.input :image %>
-        <%= f.submit "提交", class: "btn btn-primary" %>
+        <%= f.submit "提交", class: "btn btn-primary btn-block" %>
         <% end %>
       </div>
       <div class="col-sm-6">
@@ -105,7 +101,7 @@
         <%= f.input :title %>
         <%= f.input :weight %>
         <%= f.input :image %>
-        <%= f.submit "提交", class: "btn btn-primary" %>
+        <%= f.submit "提交", class: "btn btn-primary btn-block" %>
         <% end %>
       </div>
     </div>
@@ -151,7 +147,7 @@
           <td>
             <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
             <%= f.text_field :index_weight, value: c.index_weight %>
-            <%= f.submit "更新", class: "btn btn-xs btn-default" %>
+            <%= f.submit "更新", class: "btn btn-xs btn-default btn-block" %>
             <% end %>
           </td>
           <td><%= link_to "删除", category_path(c), method: :delete, class: "btn btn-xs btn-danger", "data-confirm": "确定删除？" %></td>

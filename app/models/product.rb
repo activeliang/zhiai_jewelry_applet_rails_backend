@@ -15,14 +15,12 @@ class Product < ApplicationRecord
   has_one :main_product_image, -> { order(weight: 'asc') },
     class_name: :ProductImage
 
-
-  # 返回搜索结果json
-  def render_search_result(product)
-    return  products.map{|p| { id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image_thumb}}, paginate: { current_page: products.current_page, previous_page: products.previous_page, next_page: products.next_page, total_page: products.total_pages}
-  end
+  scope :ascend, -> { order(weight: "asc") }
+  scope :select_index_show, -> { where(index_show: true) }
+  scope :ascend_index_weight, -> { order(index_weight: 'asc') }
 
   # 由微信端新增产品
-  def create_form_wechat!(params)
+  def self.create_form_wechat!(params)
     product = self.new title: params[:title],  sub_title: params[:sub_title], category_id: params[:category_id], description: params[:description], weight: params[:weight], price: params[:price], index_show: params[:index_show], is_hide: params[:is_hide], in_stock: params[:in_stock]
     if product.save
       return { status: "ok", id: product.id }
@@ -32,7 +30,7 @@ class Product < ApplicationRecord
   end
 
   # 根据微信传来的参数更新产品栏位。。。
-  def update_form_wechat!(params)
+  def self.update_form_wechat!(params)
     product = self.find(params[:id])
       product.title = params[:title] if params[:title].present?
       product.sub_title = params[:sub_title] if params[:sub_title].present?
@@ -43,28 +41,26 @@ class Product < ApplicationRecord
       product.index_show = params[:index_show] if params[:index_show].present?
       product.is_hide = params[:is_hide] if params[:is_hide].present?
       product.weight = params[:weight] if params[:weight].present?
-    if product.save
-      return { status: "ok", id: product.id }
-    else
-      return { status: "failed", info: product.errors.messages.values.flatten }
-    end
+    return product.save ? { status: "ok", id: product.id } : { status: "failed", info: product.errors.messages.values.flatten }
   end
 
   # 更改is_hide状态
-  def change_is_hide_status!(id)
-    product = self.find(id)
-    product.is_hide = !prouct.is_hide
-    product.save
+  def change_is_hide_status!
+    self.is_hide = !self.is_hide
+    self.save
   end
 
   # 更新in_stock状态
-  def change_in_stock_status!(id)
-    product = self.find(id)
-    product.in_stock = !prouct.in_stock
-    product.save
+  def change_in_stock_status!
+    self.in_stock = !self.in_stock
+    self.save
   end
 
-  
+  # 更新index_show状态
+  def change_index_show_status
+    self.index_show = !self.index_show
+    self.save
+  end
 
   def main_image_thumb
     if self.product_images.present?

@@ -2,25 +2,18 @@ class CategoriesController < ApplicationController
   before_action :auth_admin_or_wechat_user
   # before_action :admin_required_site_or_wechat
   protect_from_forgery except: [:create_form_api, :update_form_api, :update_image_form_api]
-  before_action :find_category, only: [:update_column, :destroy, :index_show, :index_hide, :delete_category]
+  before_action :find_category, only: [:show, :update_column, :destroy, :change_index_show_status, :delete_category, :update_form_api, :get_category_detail]
 
   def index
-    @category_roots = Category.includes(:products).roots.order(weight: 'asc')
+    @category_roots = Category.includes(:products).roots.ascend
     @category = Category.new
     respond_to do |format|
       format.html{
         @index_show_category = Category.where(index_show: true).order(index_weight: 'asc')
       }
       format.json{
-        scroll_a = []
-        item_a = []
-        tmp = 0
-        sum = Hash.new(0)
-        # binding.pry
-        @category_roots.map{|x| scroll_a <<  ((x.children.count + x.products.count) / 3.000).ceil }
-        @category_roots.map{|x| item_a << ((x.children.count + x.products.count) / 3.000).ceil * 126 + 88 }
-        @category_roots.map{|x| sum["item"] += ((x.children.count + x.products.count) / 3.000).ceil; sum["title"] += 1}
-        render :json => {sum: sum, item_a: item_a, scroll_detail: scroll_a, test: "test", tree:  @category_roots.map{|r| { id: r.id, title: r.title, products: render_products(r), children: render_children(r) }}}
+        # 返回小程序端的分类树
+        render json: Category.render_category_tree
       }
     end
   end
@@ -38,16 +31,12 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # json格式为获取当前分类下的所有产品数据
   def show
-    if params[:id] == "新品"
-      new_products = Product.where( "created_at >= ?", (Date.today - 30).beginning_of_day )
-    else
-      @category = Category.includes(:products).find(params[:id])
-    end
+    new_products = Product.where( "created_at >= ?", (Date.today - 30).beginning_of_day ) if params[:id] == "新品"
     respond_to do |format|
       format.html
       format.json{
+        # 返回小程序端分类下产品列表
         render :json => ( new_products || @category.products ).includes(:product_images).map{|p| {id: p.id, title: p.title, sub_title: p.sub_title, price: p.price, image: p.main_image_thumb}}
       }
     end
@@ -63,24 +52,16 @@ class CategoriesController < ApplicationController
 
   # 页面版的更新栏位数据
   def update_column
-    @category.image = params[:category][:image] if params[:category][:image].present?
-    @category.weight = params[:category][:weight] if params[:category][:weight].present?
-    @category.title = params[:category][:title] if params[:category][:title].present?
-    @category.index_show = params[:category][:index_show] if params[:category][:index_show].present?
-    @category.index_image = params[:category][:index_image] if params[:category][:index_image].present?
-    @category.index_weight = params[:category][:index_weight] if params[:category][:index_weight].present?
-    if @category.save
-      redirect_to :back, notice: "已更新！"
-    else
-      redirect_to :back, alert: "操作失败，请联系管理员"
-    end
+    render json: @category.update_form_website(params, "website")
   end
+
   # wechat端需要新增分类时，获取的分类列表
   def for_wechat_product_new_picker
     roots = Category.where(ancestry: nil)
     render :json => {title_arr: roots.map{|r| [r.title, ["- -"] + r.children.map{|c| c.title}]}, id_arr: roots.map{|r| [r.id, [00] + r.children.map{|c| c.id}]}, default_arr: [ roots.map{|r| r.title}, ["- -"] + roots.first.children.map{|c| c.title}], current_id: roots.first.id, current_title: roots.first.title}
   end
 
+  # 为小程序端获取一级分类
   def for_wechat_category_new_picker
     roots = Category.where(ancestry: nil)
     render :json => {title_arr: ["(新增一级分类)"] + roots.map{|r| r.title}, id_arr: ["00"] + roots.map{|r| r.id}}
@@ -89,64 +70,34 @@ class CategoriesController < ApplicationController
 
   # 新增来自wechat端
   def create_form_api
-    # binding.pry
     category = Category.new title: params[:title], weight: params[:weight], ancestry: ( params[:parent_id] if params[:parent_id].present? )
     if category.save
       render :json => { status: "ok", id: category.id }
     else
-      # binding.pry
       render :json => { status: "failed", info: category.errors.messages.values.flatten }
     end
   end
 
-  # 更新来自wechat端
+  # 由wechat端发起更新
   def update_form_api
-    category = Category.find(params[:id])
-    category.title = params[:title] if params[:title].present?
-    category.weight = params[:weight] if params[:weight].present?
-    category.image = params[:image] if params[:image].present?
-    category.ancestry = params[:parent_id] if params[:parent_id].present?
-    if category.save
-      render :json => {status: "ok", id: category.id}
-    else
-      # binding.pry
-      render :json => { status: "failed", info: category.errors.messages.values.flatten }
-    end
+    render json: @category.update_form_api(params)
   end
 
-  def update_image_form_api
-    category = Category.find(params[:id])
-    category.image = params[:image] if params[:image].present?
-    if category.save
-      render :json => "ok"
-    else
-      # binding.pry
-      render :json => { status: "failed"}
-    end
-  end
 
-  # 获取一条数据的详情
+  # 获取一条数据的详情，用于编辑
   def get_category_detail
-    category = Category.find(params[:id])
-    if category.present?
-      render :json => { id: category.id, title: category.title, weight: category.weight, image: (category.image.url if category.image.present?)}
+    if @category.present?
+      render :json => { id: @category.id, title: @category.title, weight: @category.weight, image: (@category.image.url if @category.image.present?)}
     end
   end
 
-  def index_show
-    @category.index_show = true
-    if @category.save
-      redirect_to :back, notice: "更新成功~"
-    end
+  # 更改index_show的状态
+  def change_index_show_status
+    @category.change_index_show_status!
+    redirect_to :back, notice: "更新成功~"
   end
 
-  def index_hide
-    @category.index_show = false
-    if @category.save
-      redirect_to :back, notice: "更新成功~"
-    end
-  end
-
+  # 由小程序端更改category状态
   def delete_category
     title = @category.title
     if @category.destroy
@@ -155,8 +106,6 @@ class CategoriesController < ApplicationController
       render :json => {status: "failed", info: "删除失败，请联系程序员..."}
     end
   end
-
-
 
 
   # 私有方法
@@ -169,13 +118,8 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
   end
 
-  def render_children(root)
-    if root.children.present?
-      return root.children.order(weight: 'asc').map{|c| { id: c.id, title: c.title, image: c.image.thumb.url }}
-    end
+  def find_root
+    returnroots = Category.where(ancestry: nil)
   end
 
-  def render_products(root)
-    return root.products.map{|p| { id: p.id, title: p.title[0..4] + "...", image: (p.product_images.present? ? p.product_images.shuffle.last.image.thumb.url : "")}}
-  end
 end

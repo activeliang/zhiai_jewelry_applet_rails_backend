@@ -1,9 +1,9 @@
 <legend class="text-center">产品管理<i class="fa fa-cogs" aria-hidden="true"></i></legend>
-
+  <%= link_to "新增产品", new_product_path, class: "btn btn-info pull-right" %>
   <%= search_form_for @q, :url => products_path do |f| %>
 
     <p><%= f.search_field :title_or_sub_title_cont, :placeholder => "搜索商品", :class => "form-control" %></p>
-    <%= f.submit "submit" %>
+    <%= f.submit "搜索", class: "btn btn-danger btn-block" %>
   <% end %>
 
 <table class="table table-striped table-bordered">
@@ -41,7 +41,7 @@
         </td>
         <td>
           <%= render_hide_status(p.index_show == false) %>
-          <%= link_to "更改状态", chage_index_show_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
+          <%= link_to "更改状态", change_index_show_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
         </td>
         <td>
           <%= render_hide_status(p.is_hide) %>
