@@ -10,23 +10,126 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417104234) do
+ActiveRecord::Schema.define(version: 20171011053724) do
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "weight"
+    t.string   "ancestry"
+    t.string   "image"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "index_show",   default: false
+    t.string   "index_image"
+    t.integer  "index_weight"
+    t.index ["ancestry", "weight"], name: "index_categories_on_ancestry_and_weight"
+  end
+
+  create_table "collects", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "wechat_user_id"
+    t.string   "image_url"
+    t.string   "product_name"
+    t.boolean  "is_exist",       default: true
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  create_table "homesets", force: :cascade do |t|
+    t.string   "banner"
+    t.string   "shop_title"
+    t.string   "open_time"
+    t.string   "address"
+    t.string   "phone_no"
+    t.string   "shop_video"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "logo"
+  end
+
+  create_table "login_logs", force: :cascade do |t|
+    t.integer  "wechat_user_id"
+    t.datetime "login_at"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "is_hide",        default: false
+  end
+
+  create_table "product_images", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "weight"
+    t.string   "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "weight"], name: "index_product_images_on_product_id_and_weight"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.decimal  "price",       precision: 10, scale: 2
+    t.string   "title"
+    t.string   "sub_title"
+    t.string   "video"
+    t.text     "description"
+    t.integer  "weight"
+    t.integer  "category_id"
+    t.boolean  "in_stock",                             default: true
+    t.boolean  "index_show",                           default: false
+    t.boolean  "is_hide",                              default: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.index ["category_id", "weight"], name: "index_products_on_category_id_and_weight"
+    t.index ["title", "sub_title"], name: "index_products_on_title_and_sub_title"
+    t.index ["weight"], name: "index_products_on_weight"
+  end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email"
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
     t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.datetime "reset_password_token_expires_at"
+    t.datetime "reset_password_email_sent_at"
+    t.string   "activation_state"
+    t.string   "activation_token"
+    t.datetime "activation_token_expires_at"
+    t.string   "phone"
+    t.boolean  "is_admin",                        default: false
+    t.index ["activation_token"], name: "index_users_on_activation_token"
+    t.index ["phone"], name: "index_users_on_phone"
+    t.index ["remember_me_token"], name: "index_users_on_remember_me_token"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
+  end
+
+  create_table "wechat_slider_images", force: :cascade do |t|
+    t.string   "image"
+    t.integer  "weight"
+    t.boolean  "is_hide",    default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "product_id"
+    t.index ["weight"], name: "index_wechat_slider_images_on_weight"
+  end
+
+  create_table "wechat_users", force: :cascade do |t|
+    t.string   "nickname"
+    t.string   "city"
+    t.string   "country"
+    t.string   "province"
+    t.string   "avatar_url"
+    t.string   "session_key"
+    t.string   "open_id"
+    t.string   "client_token"
+    t.integer  "gender"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.datetime "expired_at"
+    t.index ["client_token"], name: "index_wechat_users_on_client_token"
+    t.index ["open_id"], name: "index_wechat_users_on_open_id"
   end
 
 end

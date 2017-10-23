@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+      <legend class="text-center" >新增产品</legend>
+
+      <div class="dropdown">
+       <%= label :category_id, "所属分类：" %><a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-white" data-target="#" href="javascript:;"><span id="select-title">选择分类</span> <span class="caret"></span></a>
+        <%= link_to "新增分类", new_category_path, class: "btn btn-xs btn-info pull-right" %>
+        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+          <% @category_roots.each do |root| %>
+            <% if root.children? %>
+                <li class="dropdown-submenu">
+                  <a href="javascript:;" data-index="<%= root.id %>" data-title="<%= root.title %>"><%= root.title %></a>
+                    <% root.children.each do |c| %>
+                      <ul class="dropdown-menu">
+                          <li><a data-index="<%= c.id %>" href="javascript:;" data-title="<%= c.title %>"><%= c.title %></a></li>
+                      </ul>
+                    <% end %>
+                </li>
+            <% else %>
+              <li><a href="javascript:;" data-index="1" data-title="<%= root.title %>"><%= root.title %></a></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <%= simple_form_for @product do |f| %>
+        <%= f.input :title, label: "名称"%>
+        <%= f.input :sub_title, label: "副标题" %>
+        <%= f.input :description, label: "简介"%>
+        <%= f.label :images, "产品展示图（支持多图上传）" %>
+        <%= f.file_field :images, :multiple => true, :class => "form-control form-group" %>
+        <%= f.input :video, label: "上传产品小视频" %>
+        <!-- <%= f.input :in_stock %> -->
+        <div class="form-group">
+          <%= f.check_box :index_show %>
+          <%= f.label :index_show, "是否在首页展示？" %>
+          <span class="pull-right">
+            <%= f.label :weight, "优先级别：" %>
+            <%= f.number_field :weight, placeholder: "值越大，排名越靠前！"%>
+          </span>
+        </div>
+
+        <!-- <%= f.input :is_hide %> -->
+        <input type="hidden" name="product[category_id]" id="category_id" value="" />
+        <%= f.submit "提交", class: "btn btn-success btn-block" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$('.dropdown li a').click(function(){
+
+	console.log(this);
+	title = $(this).attr("data-title");
+	id = $(this).attr("data-index");
+	$("#select-title").text(title);
+	$("#category_id").val(id);
+})
+
+</script>

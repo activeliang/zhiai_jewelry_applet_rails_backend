@@ -20,4 +20,9 @@
 # Ignore Byebug command history file.
 .byebug_history
 /public/uploads
+<<<<<<< HEAD
+=======
+
+# Ignore application configuration
+>>>>>>> refactoring
 /config/application.yml

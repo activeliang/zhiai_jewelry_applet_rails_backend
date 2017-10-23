@@ -1,0 +1,178 @@
+<legend class="text-center">分类管理<i class="fa fa-cogs" aria-hidden="true"></i></legend>
+
+<div class="row">
+  <div class="container-fluid">
+  <!-- bootstrap标签风格 -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active test-btn"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">所有分类汇总</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">在小程序首页推广的分类</a></li>
+  </ul>
+
+<!-- 第一个卡片 -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="home">
+    <% @category_roots.each do |root| %>
+      <div class="row well well-sm well-success">
+        <div class="col-sm-5">
+          <%= form_for root, url: update_column_category_path(root), method: :post do |f| %>
+            <%= f.text_field :title, :value => root.title %>
+            <%= f.submit "更名", class: "btn btn-xs btn-default" %>
+          <% end %>
+        </div>
+        <div class="col-sm-5">
+          <%= form_for root, url: update_column_category_path(root), method: :post do |f| %>
+          <%= f.text_field :weight %>
+          <%= f.submit "更新", class: "btn btn-xs btn-default" %>
+          <% end %>
+        </div>
+        <div class="col-sm-2">
+          <%= link_to "删除", category_path(root), method: :delete, "data-confirm": "分类下的所有东西会一起删除，确定吗？", class: "btn btn-xs btn-danger" %>
+        </div>
+      </div>
+      <table class="table table-bordered table-condensed">
+        <% root.children.each do |c| %>
+          <tr>
+            <td>
+              ID:
+              <%= c.id %>
+            </td>
+            <td>
+              <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+                <%= f.text_field :title, :value => c.title %>
+                <%= f.submit "更名", class: "btn btn-xs btn-default" %>
+              <% end %>
+            </td>
+            <td>
+              <div class="row">
+                <div class="col-sm-12">
+                  <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+                  <%= f.file_field :image %>
+                  <%= f.submit "更新", class: "btn btn-xs btn-success btn-block" %>
+                  <% end %>
+                </div>
+                <div class="col-sm-12">
+                  <% if c.image.present? %>
+                    <%= image_tag(c.image.thumb.url, class: "img-responsive thumbnail", width: '70') %>
+                  <% else %>
+                    <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "pull-right img-responsive thumbnail", width: '70') %>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+            <td>
+              <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+              <%= f.text_field :weight %>
+              <%= f.submit "更新", class: "btn btn-xs btn-default" %>
+              <% end %>
+            </td>
+            <td>
+              <%= render_hide_status(c.index_show == false) %>
+              <%= link_to "更改状态", change_index_show_status_category_path(c), method: :post, class: "btn btn-xs btn-danger" %>
+            </td>
+            <td>
+              <%= link_to "商品", category_path(c), class: "btn btn-success btn-xs" %>
+              <%= link_to "删除", category_path(c), method: :delete, "data-confirm": "分类下的所有东西将会一起被清除，确认继续吗？", class: "btn btn-xs btn-primary" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <legend>增加一级分类</legend>
+        <%= simple_form_for @category do |f| %>
+        <%= f.input :title %>
+        <%= f.input :weight %>
+        <%= f.input :image %>
+        <%= f.submit "提交", class: "btn btn-primary btn-block" %>
+        <% end %>
+      </div>
+      <div class="col-sm-6">
+        <legend>增加二级分类</legend>
+        <%= simple_form_for @category do |f| %>
+
+        <select name="category[ancestry]">
+          <% @category_roots.each do |category| %>
+            <option value="<%= category.id %>"><%= category.title %></option>
+          <% end %>
+        </select>
+
+        <%= f.input :title %>
+        <%= f.input :weight %>
+        <%= f.input :image %>
+        <%= f.submit "提交", class: "btn btn-primary btn-block" %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- 第二个卡片 -->
+  <div role="tabpanel" class="tab-pane fade" id="profile">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>标题</th>
+        <th>图片</th>
+        <th>在首页要展示的图标</th>
+        <th>更改首页图标</th>
+        <th>在首页展示的排序</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @index_show_category.each do |c| %>
+        <tr>
+          <td><%= c.id %></td>
+          <td><%= c.title %></td>
+          <td>
+            <% if c.image.present? %>
+            <%= image_tag c.image.thumb.url, class: "thumbnail img-responsive" %>
+            <% end %>
+          </td>
+          <td width=130>
+            <% if c.index_image.present? %>
+            <%= image_tag c.index_image.url, class: "thumbnail img-responsive"  %>
+            <% end %>
+          </td>
+          <td>
+            <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+            <%= f.file_field :index_image %>
+            <%= f.submit "更改首页展示图标", class: "btn btn-xs btn-success" %>
+            <% end %>
+          </td>
+          <td>
+            <%= form_for c, url: update_column_category_path(c), method: :post do |f| %>
+            <%= f.text_field :index_weight, value: c.index_weight %>
+            <%= f.submit "更新", class: "btn btn-xs btn-default" %>
+            <% end %>
+          </td>
+          <td><%= link_to "删除", category_path(c), method: :delete, class: "btn btn-xs btn-danger", "data-confirm": "确定删除？" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+<script>
+// bootstrap的卡片辅助js
+
+
+$('#myTabs a[href="#profile"]').tab('show') // Select tab by name
+$('#myTabs a:first').tab('show') // Select first tab
+$('#myTabs a:last').tab('show') // Select last tab
+$('#myTabs li:eq(2) a').tab('show') // Select third tab (0-indexed)
+$('#myTabs a').click(function (e) {e.preventDefault()
+$(this).tab('show')
+})
+
+</script>

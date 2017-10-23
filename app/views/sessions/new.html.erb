@@ -1,0 +1,15 @@
+
+
+  <div class="sign-form input-group text-center">
+    <div class="input-slogan">登录</div>
+    <%= form_tag sessions_path, method: :post, class: "form-horizontal login-form" do %>
+        <!-- 输入手机号 -->
+        <%= text_field_tag :phone, nil, class: "form-control input-item phone", placeholder: "手机号码"%>
+        <!-- 输入密码 -->
+        <%= password_field_tag :password, nil, class: "form-control input-item  password" ,id:"signup-input" , placeholder: "密码" %>
+        <!-- 登入按钮帐户 -->
+        <%= link_to "没账号？去注册...", new_user_path, class: "link-to-sign-in" %>
+
+        <%= submit_tag "提交", class: "btn btn-primary btn-block sign-in-btn" %>
+    <% end %>
+  </div>

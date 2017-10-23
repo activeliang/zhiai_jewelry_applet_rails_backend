@@ -1,0 +1,38 @@
+.input-group {
+    position: absolute !important;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background: transparent;
+}
+.sign-form.input-group.text-center {
+    width: 270px;
+}
+.input-slogan {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.sign-form .form-control.input-item {
+    background: transparent;
+    border-radius: 4px !important;
+    border: 1px solid #fff;
+    margin-bottom: 20px;
+  }
+  input.btn.btn-primary.btn-block.sign-in-btn {
+      background: transparent;
+      border: 1px solid #fff;
+      padding: 12px;
+      margin-top: 24px;
+      font-size: 18px;
+  }
+  input.btn.btn-primary.btn-block.sign-in-btn:hover {
+      background: #fff;
+      color: #000;
+  }
+  a.link-to-sign-in {
+    float: right;
+    margin-top: -10px;
+}

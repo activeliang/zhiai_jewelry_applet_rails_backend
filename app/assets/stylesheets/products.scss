@@ -1,0 +1,13 @@
+// Place all the styles related to the products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// 首页的多图排列
+.image-group {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 600px;
+}
+.image-item {
+    width: 20%;
+}

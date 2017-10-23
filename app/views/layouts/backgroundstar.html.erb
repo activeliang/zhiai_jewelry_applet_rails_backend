@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html id="homepage">
+  <head>
+    <title>亮锅后台
+    </title>
+    <%= csrf_meta_tags %>
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <%= stylesheet_link_tag    'backgroundstar', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'backgroundstar', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body style="background: transparent;">
+
+    <div class="container-fluid">
+
+      <div class="row">
+        <%= render "common/navbar" %>
+        <%= render "common/flashes" %>
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+
+          <%= yield %>
+
+      </div>
+    </div>
+
+
+  </body>
+</html>

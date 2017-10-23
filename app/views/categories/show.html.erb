@@ -1,0 +1,24 @@
+<legend>当前分类：【<%= @category.title %>】下的商品列表</legend>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>名称</th>
+      <th>副标题</th>
+      <th>price</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @category.products.each do |p| %>
+    <tr>
+      <td><%= p.id %></td>
+      <td><%= link_to p.title, product_path(p)%></td>
+      <td><%= p.sub_title %></td>
+      <td><%= p.price %></td>
+      <td><%= link_to "删除", product_path(p), class: "btn btn-sm btn-danger", method: :delete, "data-confirm": "您确定吗？" %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,24 +1,7 @@
-# README
+##### 这个一个小程序的服务端后台（基于Ruby on Rails）
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+小程序已上线，这是我边学边做的第一个小程序。
 
-Things you may want to cover:
+> 其中数据为测试用的假数据...
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![](http://olmrxx9ks.bkt.clouddn.com/2017-10-23-gh_220515ba6b09_344.jpg)

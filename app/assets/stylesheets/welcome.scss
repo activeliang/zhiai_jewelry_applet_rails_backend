@@ -1,3 +1,17 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+a.btn.welcome-index-btn {
+    border: 1px solid #fff;
+    padding: 14px 100px;
+    color: #fff;
+    // -webkit-text-fill-color: transparent;
+    font-size: 18px;
+}
+
+a.btn.welcome-index-btn:hover {
+    background: #fff;
+    color: #000;
+}
