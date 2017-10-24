@@ -18,6 +18,7 @@
       <th>是否有货</th>
       <th>首页展示？</th>
       <th>上架状态</th>
+      <th>操作</th>
       <th>权重</th>
       <th>多图</th>
     </tr>
@@ -47,6 +48,7 @@
           <%= render_hide_status(p.is_hide) %>
           <%= link_to "更改状态", change_is_hide_status_product_path(p), method: :post, class: "btn btn-xs btn-primary" %>
         </td>
+        <td><%= link_to "删除", product_path(p), method: :delete, "data-confirm": "确定吗？", class: "btn btn-sm btn-danger" %></td>
         <td><%= p.weight %></td>
         <td width=300>
            <div class="image-group">
