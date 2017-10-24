@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       if request.headers['Authorization']
         return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入！" }
       else
-        redirect_to new_session_path, notice: "请先以管理员账号登陆~！"
+        redirect_to new_session_path, notice: "您不是管理员，请以管理员账号登入~！"
       end
     end
   end
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       if request.headers['Authorization']
         return render json: { status: "failed", info: "权限验证错误！,请检查是否已经登入(管理员)！" }
       else
-        redirect_to new_session_path, notice: "请先以管理员账号登陆~！"
+        redirect_to new_session_path, notice: "您不是管理员，请以管理员账号登入~！"
       end
     end
   end
