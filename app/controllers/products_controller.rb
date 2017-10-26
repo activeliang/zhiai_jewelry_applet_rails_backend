@@ -35,6 +35,20 @@ class ProductsController < ApplicationController
     end
   end
 
+  def update
+    @product = Product.new(product_params)
+    if @product.save
+      params[:product][:images].each do |img|
+        @product.product_images << ProductImage.new(image: img)
+      end
+      redirect_to products_path, notice: "create success!新增成功~"
+    else
+      @category_roots = Category.roots
+      flash[:warning] = @product.errors.messages.values.flatten.join("&")
+      render :new
+    end
+  end
+
   # 微信端新增产品
   def create_form_wechat
     render json: Product.create_form_wechat!(params)
