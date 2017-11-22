@@ -35,11 +35,17 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'bootstrap-sass'
+# gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'font-awesome-rails'
 gem 'sorcery'
+
+
 gem 'ancestry'
+
+gem 'bootstrap', '~> 4.0.0.beta2.1'
+
+
 gem 'carrierwave'
 gem 'mini_magick'
 gem 'carrierwave-qiniu'
