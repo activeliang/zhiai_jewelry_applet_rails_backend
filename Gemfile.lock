@@ -265,7 +265,7 @@ PLATFORMS
 DEPENDENCIES
   ancestry
   awesome_rails_console
-  bootstrap (~> 4.0.0.beta2.1)
+  bootstrap
   byebug
   capistrano-passenger
   capistrano-rails
