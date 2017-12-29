@@ -43,7 +43,7 @@ gem 'sorcery'
 
 gem 'ancestry'
 
-gem 'bootstrap'
+gem 'bootstrap-sass'
 
 
 gem 'carrierwave'
