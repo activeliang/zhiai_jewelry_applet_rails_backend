@@ -1,0 +1,40 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>端口</th>
+      <th>password</th>
+      <th>qr_code</th>
+      <th>wechat</th>
+      <th>是否已领取</th>
+      <th>是否已发送</th>
+      <th>draw_date</th>
+      <th>remarks</th>
+      <th>re_code</th>
+      <th>状态</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ss_items.each do |item| %>
+      <tr>
+        <td><%= item.id %></td>
+        <td><%= item.port %></td>
+        <td><%= item.password %></td>
+        <td>
+          <%= item.qr_code %>
+          <%= link_to "查看二维码", admin_show_qr_ss_service_ss_item_path(item.ss_service_id, item.id), class: "btn btn-xs btn-success" %>
+        </td>
+        <td><%= item.wechat %></td>
+        <td><%= render_status_display item.is_draw %></td>
+        <td>
+          <%= render_status_display item.is_send %>
+          <%= link_to "更改状态", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-xs btn-success" %>
+        </td>
+        <td><%= item.draw_date %></td>
+        <td><%= item.remarks %></td>
+        <td><%= item.re_code %></td>
+        <td><%= item.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

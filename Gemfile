@@ -39,6 +39,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'simple_form'
 gem 'font-awesome-rails'
 gem 'sorcery'
+gem 'rqrcode'
 
 
 gem 'ancestry'

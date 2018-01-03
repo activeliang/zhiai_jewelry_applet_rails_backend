@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="kexue-tag">
+    <div class="show-qr-page" >
+      <div class="container">
+        <div class="col-sm-4 col-sm-offset-4">
+          <legend>第一步：保存二维码</legend>
+          <div class="qr-code text-center" id="ss_qrcode">
+            <%= raw @qr.as_html %>
+          </div>
+          <div class="alert-qr well">
+            此链接10分钟后会失效，请截图保存好二维码。<br>
+            这是您独享的资源，请不要分享出去哦。
+          </div>
+          <legend>第二步：查看接入教程</legend>
+          <div class="class-btn">
+            <%= link_to "点击查看教程", "https://www.jianshu.com/p/15fe0bdcaae3", :target => "_blank", class: "btn btn-lg btn-success btn-block" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

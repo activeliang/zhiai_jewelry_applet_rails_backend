@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103022100) do
+ActiveRecord::Schema.define(version: 20180103142026) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -92,8 +92,10 @@ ActiveRecord::Schema.define(version: 20180103022100) do
     t.string   "re_code"
     t.boolean  "is_draw",       default: false
     t.boolean  "is_send",       default: false
+    t.datetime "draw_date"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "status",        default: 0
   end
 
   create_table "ss_services", force: :cascade do |t|

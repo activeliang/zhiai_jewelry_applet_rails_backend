@@ -5,6 +5,7 @@ class CreateSsItems < ActiveRecord::Migration[5.0]
       t.string :port, :password, :qr_code, :wechat, :remarks, :re_code
       t.boolean :is_draw, default: false
       t.boolean :is_send, default: false
+      t.datetime :draw_date
       t.timestamps
     end
   end

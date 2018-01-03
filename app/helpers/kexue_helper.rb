@@ -1,0 +1,2 @@
+module KexueHelper
+end

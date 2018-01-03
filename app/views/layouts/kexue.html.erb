@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html class="kexue-page">
+  <head>
+    <title>亮锅后台
+    </title>
+    <%= csrf_meta_tags %>
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+    <div class="container-fluid">
+      <%= render "common/flashes" %>
+      <%= yield %>
+    </div>
+
+
+  </body>
+</html>

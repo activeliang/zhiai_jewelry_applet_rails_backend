@@ -1,0 +1,17 @@
+
+<div class="kexue-tag">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+        <div class="get-qr-info well">
+          在下一步您将获得接入用的二维码和教程，继续前，请填入您的微信号，方便日后维护时能联系上您~
+        </div>
+        <%= simple_form_for :wechat, url: kexue_update_ss_item_path do |f| %>
+        <%= f.input :wechat_id, label: "微信号" %>
+        <%= f.input :re_code, as: "hidden", input_html: { value: @re_code } %>
+        <%= f.submit "下一步", class: "btn btn-success btn-lg btn-block" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

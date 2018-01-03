@@ -6,15 +6,18 @@ Rails.application.routes.draw do
       post :admin_required
     end
   end
+
+  root "welcome#home"
   resources :users
   delete '/logout' => 'sessions#destroy', as: :logout
 
-  root 'welcome#home'
   get "welcome" => "welcome#index"
 
   get '/admin/recent_login_log' => "admin/recent_login_log"
   get '/admin/get_user_login_log' => "admin/get_user_login_log"
-
+  post "/kexue/update_ss_item" => "kexue/update_ss_item"
+  get 'kexue/get_qr' => "kexue/get_qr"
+  get 'kexue/show_qr' => "kexue/show_qr"
 
   resources :categories do
     collection do
@@ -62,4 +65,16 @@ Rails.application.routes.draw do
       get :my_collects
     end
   end
+
+
+  resources :ss_services do
+    resources :ss_items do
+      member do
+        get :admin_show_qr
+        post :change_send_status
+      end
+    end
+  end
+
+
 end

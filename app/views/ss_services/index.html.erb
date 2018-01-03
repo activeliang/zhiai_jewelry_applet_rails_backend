@@ -1,0 +1,26 @@
+<legend class="text-center">all</legend>
+<%= link_to "new", new_ss_service_path, class: "btn btn-primary" %>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ip</th>
+      <th>conf</th>
+      <th>json</th>
+      <th>option</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ss_services.each do |ss| %>
+      <tr>
+        <td><%= ss.id %></td>
+        <td><%= ss.service_ip %></td>
+        <td><%= ss.ss_conf %></td>
+        <td><%= ss.ss_json %></td>
+        <td>
+          <%= link_to "查看子项", ss_service_ss_items_path(ss.id), class: "btn btn-primary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
