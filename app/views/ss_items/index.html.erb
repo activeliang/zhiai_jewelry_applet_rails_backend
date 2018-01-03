@@ -7,7 +7,8 @@
       <th>qr_code</th>
       <th>wechat</th>
       <th>是否已领取</th>
-      <th>是否已发送</th>
+      <th>是否已送出</th>
+      <th>送出链接</th>
       <th>draw_date</th>
       <th>remarks</th>
       <th>re_code</th>
@@ -29,6 +30,11 @@
         <td>
           <%= render_status_display item.is_send %>
           <%= link_to "更改状态", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-xs btn-success" %>
+        </td>
+        <td>
+          <div class="form-group">
+            <%= text_area_tag "share_link", "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}", class: ""  %>
+          </div>
         </td>
         <td><%= item.draw_date %></td>
         <td><%= item.remarks %></td>
