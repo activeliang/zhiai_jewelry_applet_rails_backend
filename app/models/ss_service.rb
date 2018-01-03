@@ -1,0 +1,2 @@
+class SsService < ApplicationRecord
+end

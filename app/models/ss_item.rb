@@ -1,0 +1,2 @@
+class SsItem < ApplicationRecord
+end

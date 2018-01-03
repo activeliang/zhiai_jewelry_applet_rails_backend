@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011053724) do
+ActiveRecord::Schema.define(version: 20180103022100) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
@@ -80,6 +80,28 @@ ActiveRecord::Schema.define(version: 20171011053724) do
     t.index ["category_id", "weight"], name: "index_products_on_category_id_and_weight"
     t.index ["title", "sub_title"], name: "index_products_on_title_and_sub_title"
     t.index ["weight"], name: "index_products_on_weight"
+  end
+
+  create_table "ss_items", force: :cascade do |t|
+    t.integer  "ss_service_id"
+    t.string   "port"
+    t.string   "password"
+    t.string   "qr_code"
+    t.string   "wechat"
+    t.string   "remarks"
+    t.string   "re_code"
+    t.boolean  "is_draw",       default: false
+    t.boolean  "is_send",       default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  create_table "ss_services", force: :cascade do |t|
+    t.text     "ss_conf"
+    t.text     "ss_json"
+    t.string   "service_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
