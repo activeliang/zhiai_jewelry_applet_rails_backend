@@ -1,5 +1,5 @@
 class SsItemsController < ApplicationController
-  # before_action :auth_admin_or_wechat_user
+  before_action :auth_admin_or_wechat_user
 
 
   def index
