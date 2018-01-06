@@ -1,3 +1,4 @@
+<%= link_to "返回服务器页面", ss_services_path, class: "btn btn-sm btn-primary" %>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
@@ -10,7 +11,6 @@
       <th>是否已送出</th>
       <th>送出链接</th>
       <th>draw_date</th>
-      <th>remarks</th>
       <th>re_code</th>
       <th>状态</th>
     </tr>
@@ -22,23 +22,34 @@
         <td><%= item.port %></td>
         <td><%= item.password %></td>
         <td>
-          <%= item.qr_code %>
-          <%= link_to "查看二维码", admin_show_qr_ss_service_ss_item_path(item.ss_service_id, item.id), class: "btn btn-xs btn-success" %>
+          <div style="word-break:break-all; width: 220px;">
+            <%= item.qr_code %>
+          </div>
+          <%= link_to "查看二维码", admin_show_qr_ss_service_ss_item_path(item.ss_service_id, item.id), class: "btn btn-sm btn-success" %>
         </td>
         <td><%= item.wechat %></td>
         <td><%= render_status_display item.is_draw %></td>
         <td>
           <%= render_status_display item.is_send %>
-          <%= link_to "更改状态", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-xs btn-success" %>
+          <%= link_to "标记为送出", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-sm btn-danger" %>
         </td>
         <td>
           <div class="form-group">
-            <%= text_area_tag "share_link", "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}", class: ""  %>
+            <div class="well">
+              <%= "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}" %>
+            </div>
           </div>
         </td>
-        <td><%= item.draw_date %></td>
-        <td><%= item.remarks %></td>
-        <td><%= item.re_code %></td>
+        <td>
+          <% if item.draw_date.present? %>
+          <%= item.draw_date.strftime("%y-%m-%d %H:%M") %>
+          <% end %>
+        </td>
+        <td>
+          <div style="word-break:break-all; width: 220px;">
+            <%= item.re_code %>
+          </div>
+        </td>
         <td><%= item.status %></td>
       </tr>
     <% end %>

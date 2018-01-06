@@ -3,7 +3,7 @@ class SsItemsController < ApplicationController
 
 
   def index
-    @ss_items = SsItem.where(ss_service_id: params[:ss_service_id])
+    @ss_items = SsItem.where(ss_service_id: params[:ss_service_id]).order("is_send asc")
   end
 
   def change_send_status

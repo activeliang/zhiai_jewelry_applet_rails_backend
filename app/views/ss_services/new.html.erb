@@ -1,4 +1,8 @@
-<%= simple_form_for @ss_service do |f| %>
-<%= f.input :service_ip %>
-<%= f.submit "提交" %>
-<% end %>
+<div class="container">
+  <div class="col-sm-4 col-sm-offset-4">
+    <%= simple_form_for @ss_service do |f| %>
+    <%= f.input :service_ip, label: "请输入服务器IP:" %>
+    <%= f.submit "提交", class: "btn btn-lg btn-block btn-success" %>
+    <% end %>
+  </div>
+</div>

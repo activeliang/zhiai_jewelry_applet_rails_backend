@@ -9,11 +9,15 @@ class SsServicesController < ApplicationController
     @ss_service = SsService.new
   end
 
+  def show
+    find_item
+  end
+
   def create
     if @ss_service = SsService.generate_service(params[:ss_service][:service_ip])
-      redirect to ss_services_path, notice: "增加成功"
+      redirect_to ss_services_path, notice: "增加成功"
     else
-      redirect to ss_services_path, notice: "失败！"
+      redirect_to ss_services_path, notice: "失败！"
     end
   end
 
@@ -23,6 +27,6 @@ class SsServicesController < ApplicationController
 
   private
     def find_item
-      @ss_service = SsSerivce.find(params[:id])
+      @ss_service = SsService.find(params[:id])
     end
 end

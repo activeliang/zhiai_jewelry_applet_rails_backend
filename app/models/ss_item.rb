@@ -1,5 +1,6 @@
 class SsItem < ApplicationRecord
 
+  belongs_to :service, class_name: SsService
   enum status: [:init , :complete]
 
 

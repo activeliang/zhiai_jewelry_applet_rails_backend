@@ -5,8 +5,7 @@
     <tr>
       <th>#</th>
       <th>ip</th>
-      <th>conf</th>
-      <th>json</th>
+      <th>剩余数量</th>
       <th>option</th>
     </tr>
   </thead>
@@ -15,9 +14,9 @@
       <tr>
         <td><%= ss.id %></td>
         <td><%= ss.service_ip %></td>
-        <td><%= ss.ss_conf %></td>
-        <td><%= ss.ss_json %></td>
+        <td><%= ss.empty_items.count %></td>
         <td>
+          <%= link_to "查看详情", ss, class: "btn btn-danger" %>
           <%= link_to "查看子项", ss_service_ss_items_path(ss.id), class: "btn btn-primary" %>
         </td>
       </tr>

@@ -1,0 +1,11 @@
+<div class="container">
+  <legend class="text-center">服务器IP：<%= @ss_service.service_ip %></legend>
+  <h4>服务器端配置：</h4>
+  <div class="well">
+    <%= @ss_service.ss_conf %>
+  </div>
+  <h4>APP端导入配置：</h4>
+  <div class="well">
+    <%= @ss_service.ss_json %>
+  </div>
+</div>
