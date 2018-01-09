@@ -35,9 +35,7 @@
         </td>
         <td>
           <div class="form-group">
-            <div class="well">
-              <%= "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}" %>
-            </div>
+              <%= text_area_tag nil,  "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}",  class: "form-control" %>
           </div>
         </td>
         <td>
