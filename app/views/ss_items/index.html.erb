@@ -31,7 +31,9 @@
         <td><%= render_status_display item.is_draw %></td>
         <td>
           <%= render_status_display item.is_send %>
-          <%= link_to "标记为送出", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-sm btn-danger" %>
+          <% unless item.is_send %>
+            <%= link_to "标记为送出", change_send_status_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-sm btn-success" %>
+          <% end %>
         </td>
         <td>
           <div class="form-group">
