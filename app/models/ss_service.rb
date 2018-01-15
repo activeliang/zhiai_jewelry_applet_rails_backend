@@ -5,14 +5,14 @@ class SsService < ApplicationRecord
 
   def self.generate_service(ip)
     a = [*"a".."z"]
-    b = [*8380..8460]
+    b = [*8380..8540]
     ss_conf = String.new
     ss_json = ""
     password_a = []
 
     service_record = SsService.create service_ip: ip
 
-    81.times do
+    161.times do
       password_a << (a.sample + a.sample + a.sample + a.sample + a.sample + a.sample)
     end
 
