@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post "/kexue/update_ss_item" => "kexue/update_ss_item"
   get 'kexue/get_qr' => "kexue/get_qr"
   get 'kexue/show_qr' => "kexue/show_qr"
+  get "kexue/show_wingy"
 
   resources :categories do
     collection do
@@ -72,6 +73,7 @@ Rails.application.routes.draw do
       member do
         get :admin_show_qr
         post :change_send_status
+        post :init_expired
       end
     end
   end
