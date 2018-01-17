@@ -18,6 +18,6 @@ class SsItemsController < ApplicationController
 
   def admin_show_qr
     @ss_item = SsItem.find(params[:id])
-    @qr = RQRCode::QRCode.new(@ss_item.qr_code.to_s, :size => 9, :level => :m )
-  end
+    @qr = @ss_item.shadow_qr_code
+
 end

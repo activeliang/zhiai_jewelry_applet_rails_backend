@@ -5,6 +5,7 @@
     <tr>
       <th>#</th>
       <th>ip</th>
+      <th>域名</th>
       <th>剩余数量</th>
       <th>option</th>
     </tr>
@@ -14,6 +15,7 @@
       <tr>
         <td><%= ss.id %></td>
         <td><%= ss.service_ip %></td>
+        <td><%= ss.domain %></td>
         <td><%= ss.empty_items.count %></td>
         <td>
           <%= link_to "查看详情", ss, class: "btn btn-danger" %>

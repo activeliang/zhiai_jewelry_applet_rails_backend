@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="kexue-tag">
+  <div class="kexue-tag show_qr">
     <div class="show-qr-page" >
       <div class="container">
         <div class="col-sm-4 col-sm-offset-4">
@@ -14,6 +14,16 @@
           <legend>第二步：查看接入教程</legend>
           <div class="class-btn">
             <%= link_to "点击查看教程", "https://www.jianshu.com/p/15fe0bdcaae3", :target => "_blank", class: "btn btn-lg btn-success btn-block" %>
+          </div>
+          <legend>Tips</legend>
+          <div class="tips-item">安卓手机用户:</div>
+          <div class="alert-qr well">
+            安卓手机便捷接入方法：复制下面的代码，打开影梭APP(教程里有)，选择从剪贴板导入，选中导入的服务器，启动即可。
+            <%= text_area_tag "test", @record.qr_code, class: "form-control" %>
+          </div>
+          <div class="tips-item">Wingy客户端专用二维码:</div>
+          <div class="qr-code text-center" id="ss_qrcode">
+            <%= raw @record.wingy_qr_code.as_html %>
           </div>
         </div>
       </div>

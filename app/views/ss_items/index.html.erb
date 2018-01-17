@@ -13,6 +13,7 @@
       <th>draw_date</th>
       <th>re_code</th>
       <th>状态</th>
+      <th>wingy的领取链接</th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +24,7 @@
         <td><%= item.password %></td>
         <td>
           <div style="word-break:break-all; width: 220px;">
-            <%= item.qr_code %>
+            <%= item.android_code %>
           </div>
           <%= link_to "查看二维码", admin_show_qr_ss_service_ss_item_path(item.ss_service_id, item.id), class: "btn btn-sm btn-success" %>
         </td>
@@ -37,7 +38,7 @@
         </td>
         <td width="300">
           <div style="min-width: 300px;" class="form-group">
-              <%= text_area_tag nil,  "https://huiyutongwechat.top/kexue/get_qr?re_code=#{item.re_code}",  class: "form-control" %>
+              <%= text_area_tag nil,  "#{root_url}/kexue/get_qr?re_code=#{item.re_code}",  class: "form-control" %>
           </div>
         </td>
         <td>
@@ -51,6 +52,11 @@
           </div>
         </td>
         <td><%= item.status %></td>
+        <td>
+          <div style="min-width: 300px;" class="form-group">
+              <%= text_area_tag nil,  "#{root_url}/kexue/show_wingy_qr?re_code=#{item.re_code}",  class: "form-control" %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,5 +1,5 @@
 class KexueController < ApplicationController
-  before_action :require_item_expired, only: [:get_qr, :show_qr]
+  before_action :require_item_expired, only: [:get_qr, :show_qr, :show_wingy_qr]
   layout 'kexue'
 
   def index
@@ -30,7 +30,18 @@ class KexueController < ApplicationController
 
   def show_qr
     @record = SsItem.find_by(re_code: params[:re_code])
-    @qr = RQRCode::QRCode.new(@record.qr_code.to_s, :size => 9, :level => :m )
+    @qr = @record.shadow_qr_code
+      unless @record && @record.wechat.present?
+        render 'kexue/none'
+      end
+      if @record.status == "init"
+        @record.update status: 1
+      end
+  end
+
+  def show_wingy_qr
+    @record = SsItem.find_by(re_code: params[:re_code])
+    @qr = @record.wingy_qr_code
       unless @record && @record.wechat.present?
         render 'kexue/none'
       end
@@ -41,7 +52,6 @@ class KexueController < ApplicationController
 
   private
     def require_item_expired
-
       @record = SsItem.find_by(re_code: params[:re_code])
       if @record.present? && @record.expired?
         render "/kexue/none"

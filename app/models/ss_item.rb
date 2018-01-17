@@ -11,4 +11,23 @@ class SsItem < ApplicationRecord
       false
     end
   end
+
+  def android_code
+    qr_code = "ss://" + (Base64.strict_encode64("rc4-md5:#{self.password}")).to_s + "@" + self.domain + ":" + self.port.to_s + "/?OTA=false"
+  end
+
+  def shadow_qr_code
+    qr_code = "ss://" + (Base64.strict_encode64("rc4-md5:#{self.password}")).to_s + "@" + self.domain + ":" + self.port.to_s + "/?OTA=false"
+    qr_code = qr_code + '#' + URI.encode(self.wechat) if self.wechat.present?
+    qr_code = RQRCode::QRCode.new(qr_code.to_s, :size => 9, :level => :m)
+    return qr_code
+
+  end
+
+  def wingy_qr_code
+    qr_code = "ss://" + (Base64.strict_encode64("rc4-md5:#{self.password}")).to_s + "@" + self.domain + ":" + self.port.to_s + "/?OTA=false"
+    qr_code = qr_code + '#' + URI.encode(self.wechat) if self.wechat.present?
+    qr_code = RQRCode::QRCode.new(qr_code.to_s, :size => 9, :level => :m)
+    return qr_code
+  end
 end

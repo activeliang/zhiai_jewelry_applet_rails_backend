@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   post "/kexue/update_ss_item" => "kexue/update_ss_item"
   get 'kexue/get_qr' => "kexue/get_qr"
   get 'kexue/show_qr' => "kexue/show_qr"
-  get "kexue/show_wingy" => "kexue/show_wingy"
+  get "kexue/show_wingy_qr" => "kexue/show_wingy_qr"
 
   resources :categories do
     collection do
