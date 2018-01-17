@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       member do
         get :admin_show_qr
         post :change_send_status
+        post :init_draw_time
       end
     end
   end
