@@ -19,5 +19,5 @@ class SsItemsController < ApplicationController
   def admin_show_qr
     @ss_item = SsItem.find(params[:id])
     @qr = @ss_item.shadow_qr_code
-
+  end
 end
