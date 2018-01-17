@@ -42,7 +42,7 @@
               <%= text_area_tag nil,  "#{root_url}/kexue/get_qr?re_code=#{item.re_code}",  class: "form-control" %>
           </div>
         </td>
-        <td><%= link_to "重生效10分钟", init_draw_time_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-danger btn-sm" %></td>
+        <td><%= link_to "链接重生效", init_draw_time_ss_service_ss_item_path(item.ss_service_id, item.id), method: :post, class: "btn btn-danger btn-sm" %></td>
         <td>
           <% if item.draw_date.present? %>
           <%= item.draw_date.strftime("%y-%m-%d %H:%M") %>
