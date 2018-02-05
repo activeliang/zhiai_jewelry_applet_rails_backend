@@ -18,7 +18,7 @@ class SsItemsController < ApplicationController
 
   def init_draw_time
     @ss_item = SsItem.find(params[:id])
-    @ss_item.update draw_date: Time.now
+    @ss_item.update draw_date: nil
     redirect_to ss_service_ss_items_path(@ss_item.ss_service_id), notice: "更改成功~"
   end
 

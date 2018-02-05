@@ -53,7 +53,7 @@ class KexueController < ApplicationController
   private
     def require_item_expired
       @record = SsItem.find_by(re_code: params[:re_code])
-      if @record.present? && @record.expired?
+      if @record.present? && @record.expired? && !current_user.is_admin
         render "/kexue/none"
       end
     end
