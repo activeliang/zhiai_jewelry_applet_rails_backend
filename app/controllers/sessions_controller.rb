@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
 
   def create
     if user = login(params[:phone], params[:password])
+      remember_me!
       flash[:notice] = "登陆成功"
       redirect_back_or_to homeset_index_path
     else
@@ -19,6 +20,7 @@ class SessionsController < ApplicationController
     logout
     cookies.delete :user_uuid
     flash[:notice] = "退出成功"
+    force_forget_me!
     redirect_to root_path
   end
 
