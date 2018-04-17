@@ -47,6 +47,15 @@ class ApplicationController < ActionController::Base
     WechatUser.find_by_client_token(request.headers['Authorization'])
   end
 
+  # server数据
+  def server_data
+    server = SsService.find params[:id]
+    json = server.items.map{|x| { port: x.port, password: x.password, re_code: x.re_code, wechat: x.wechat, is_send: x.is_send, is_draw: x.is_draw, draw_date: x.draw_date } if x.password.present? }
+    render json: {
+      data: json
+    }
+  end
+
   private
 
   def current_wechat_user_is_admin?

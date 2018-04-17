@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'kexue/get_qr' => "kexue/get_qr"
   get 'kexue/show_qr' => "kexue/show_qr"
   get "kexue/show_wingy_qr" => "kexue/show_wingy_qr"
+  get "server_data" => 'application#server_data'
 
   resources :categories do
     collection do
