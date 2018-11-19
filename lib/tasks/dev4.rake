@@ -1,12 +1,12 @@
 namespace :dev4 do
 
-jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8Dp.mp4"
+jewelry_video_url = "http://hongliang.fun/%E6%9C%AA%E5%91%BD%E5%90%8Dp.mp4"
   task :fake => :environment do
 
     # 13次为分类增加产品，每个分类增加6个产品。
   4.times do |index|
     # 产品1
-    product_1_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031414.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031649.jpg", "http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031833.jpg", "http://olmrxx9ks.bkt.clouddn.com/2017-10-14-031955.jpg"]
+    product_1_img = ["http://hongliang.fun/2017-10-14-031414.jpg","http://hongliang.fun/2017-10-14-031649.jpg", "http://hongliang.fun/2017-10-14-031833.jpg", "http://hongliang.fun/2017-10-14-031955.jpg"]
     product_1 = Product.new(
                 title: "皇后系列至爱闪耀吊坠",
                 sub_title: "MY QUEEN王后专柜同款 金18K钻石吊坠 钻石项链女 结婚礼物 18K白 16分 H/SI/G 赠18k链",
@@ -22,7 +22,7 @@ jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8
       product_1.product_images.create remote_image_url: img
     end
     # 产品2
-    product_2_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033303.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033341.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033422.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033454.jpg"]
+    product_2_img = ["http://hongliang.fun/2017-10-14-033303.jpg","http://hongliang.fun/2017-10-14-033341.jpg","http://hongliang.fun/2017-10-14-033422.jpg","http://hongliang.fun/2017-10-14-033454.jpg"]
     product_2 = Product.new(
                 title: "悦动精灵",
                 sub_title: "悦动精灵 金18K钻石吊坠女 个性礼物 女士项链 生日礼物 18K白吊坠 +同色银链",
@@ -39,7 +39,7 @@ jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8
     end
 
     # 产品3
-    product_3_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-033929.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074222.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074251.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-074338.jpg"]
+    product_3_img = ["http://hongliang.fun/2017-10-14-033929.jpg","http://hongliang.fun/2017-10-14-074222.jpg","http://hongliang.fun/2017-10-14-074251.jpg","http://hongliang.fun/2017-10-14-074338.jpg"]
     product_3 = Product.new(
                 title: "QUEEN款耳坠女",
                 sub_title: "QUEEN款耳坠女 专柜同款耳饰 白18K金 镶嵌钻石耳钉珠宝 26分/I-J色",
@@ -56,7 +56,7 @@ jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8
     end
 
     # 产品4
-    product_4_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-034637.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-034713.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-034734.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-034801.jpg"]
+    product_4_img = ["http://hongliang.fun/2017-10-14-034637.jpg","http://hongliang.fun/2017-10-14-034713.jpg","http://hongliang.fun/2017-10-14-034734.jpg","http://hongliang.fun/2017-10-14-034801.jpg"]
     product_4 = Product.new(
                 title: "非你莫属女士项链",
                 sub_title: "专柜同款金18K钻石吊坠女 唐嫣同款项坠 非你莫属女士项链 礼物 18K白吊坠+银链",
@@ -73,7 +73,7 @@ jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8
     end
 
     # 产品5
-    product_5_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035407.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035431.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035459.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035528.jpg"]
+    product_5_img = ["http://hongliang.fun/2017-10-14-035407.jpg","http://hongliang.fun/2017-10-14-035431.jpg","http://hongliang.fun/2017-10-14-035459.jpg","http://hongliang.fun/2017-10-14-035528.jpg"]
     product_5 = Product.new(
                 title: "星月童话钻石链牌女",
                 sub_title: "钻石吊坠女 星月童话钻石链牌女 项链女 情人节礼物（含链） 18K红",
@@ -90,7 +90,7 @@ jewelry_video_url = "http://ow9r8dc0w.bkt.clouddn.com/%E6%9C%AA%E5%91%BD%E5%90%8
     end
 
     # 产品6
-    product_6_img = ["http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035714.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035737.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035806.jpg","http://olmrxx9ks.bkt.clouddn.com/2017-10-14-035843.jpg"]
+    product_6_img = ["http://hongliang.fun/2017-10-14-035714.jpg","http://hongliang.fun/2017-10-14-035737.jpg","http://hongliang.fun/2017-10-14-035806.jpg","http://hongliang.fun/2017-10-14-035843.jpg"]
     product_6 = Product.new(
                 title: "ShootingStar梦想之星钻石吊坠女",
                 sub_title: "ShootingStar梦想之星钻石吊坠女 专柜同款 金18K项链 黄18K金吊坠+赠银链",

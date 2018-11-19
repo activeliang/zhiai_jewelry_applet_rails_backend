@@ -1,7 +1,7 @@
 sh "ssh-add"
 
 # config valid only for current version of Capistrano
-lock "3.9.1"
+lock "3.11.0"
 
 set :application, "huiyu_wechat"
 set :repo_url, "git@github.com:activeliang/zhiai_jewelry_applet_rails_backend.git"
