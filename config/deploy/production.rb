@@ -5,7 +5,7 @@
 
 set :branch, "develop"
 
-server "39.108.121.230", user: "deploy", roles: %w{app db web}, my_property: :my_value
+server "47.107.188.254", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
