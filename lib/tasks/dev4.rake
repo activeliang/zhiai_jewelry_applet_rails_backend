@@ -1,6 +1,6 @@
 namespace :dev4 do
 
-jewelry_video_url = "http://hongliang.fun/%E6%9C%AA%E5%91%BD%E5%90%8Dp.mp4"
+jewelry_video_url = "http://hongliang.fun/Apple%20Official%20iPhone%208%20Trailer%202017.mp4"
   task :fake => :environment do
 
     # 13次为分类增加产品，每个分类增加6个产品。
