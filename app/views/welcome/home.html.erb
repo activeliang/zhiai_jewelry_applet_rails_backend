@@ -1,9 +1,10 @@
 
   <div id="title">
-    <span>亮锅后台</span>
+    <span><%= request.host.include?('huiyu') ? '亮锅后台' : '程序测试用' %></span>
     <br />
     <span>实现更有价值的计算</span>
     <div class="row">
       <%= link_to "立即进入", products_path, class: "btn welcome-index-btn"%>
     </div>
+    <div style="font-size: 2rem; margin-top: 5rem;"><%= link_to '粤ICP备17119173号', 'http://www.beian.miit.gov.cn/' %></div>
   </div>
